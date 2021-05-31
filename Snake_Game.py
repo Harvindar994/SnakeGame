@@ -72,3 +72,62 @@ class google_sheet:
             self.sheet_opend = False
             return
         self.sheet_opend = True
+        
+    def insert_row_in_sheet(self, row, row_number=1):
+        try:
+            self.sheet.insert_row(row, row_number)
+        except:
+            return False
+        return True
+    def update_row_data(self, row, row_number):
+        try:
+            if Online_status and self.sheet_opend:
+                self.sheet.delete_row(10000)
+            if Online_status and self.sheet_opend:
+                self.sheet.insert_row(row, row_number)
+        except:
+            return False
+        return True
+    def update_cell(self, row, col, value):
+        try:
+            self.sheet.update_cell(row,col,value)
+        except:
+            return False
+        return True
+    def delete_row(self,row_number):
+        try:
+            self.sheet.delete_row(row_number)
+        except:
+            return False
+        return True
+
+    def get_row_data(self,row_number):
+        try:
+            data = self.sheet.row_values(row_number)
+        except:
+            return None
+        return data
+    def get_lenth_of_sheet(self):
+        try:
+            data = self.sheet.col_values(1)
+        except:
+            return None
+        return len(data)
+    def get_cell_data(self, row, column):
+        try:
+            cell_data = self.sheet.cell(row, column).value
+        except:
+            return None
+        return cell_data
+    def get_column_data(self, column):
+        try:
+            row_data = self.sheet.col_values(column)
+        except:
+            return None
+        return row_data
+    def update_cell_data(self,row, column, value):
+        try:
+            self.sheet.update_cell(row,column,value)
+        except:
+            return False
+        return True
