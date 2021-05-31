@@ -34,3 +34,11 @@ def set_valuem(sound_file, valuem):
     #Max Value 1.0
     #Min Value 0.0
     pygame.mixer.Sound.set_volume(sound_file, valuem)
+
+
+Online_status = False
+Playing_Status = False
+Local_high_score = 0
+Online_High_score = 0
+Online_High_score_name = ''
+Online_High_score_email = ''
