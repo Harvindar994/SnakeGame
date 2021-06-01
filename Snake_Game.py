@@ -209,3 +209,29 @@ class Button:
             return True
         else:
             return False
+
+class get_input:
+    def __init__(self, surface, text, x, y, font_size, max_lenth, text_box_width, text_color, cursor_color):
+        self.surface = surface
+        self.text = text
+        self.x = x
+        self.y = y
+        self.font_size = font_size
+        self.max_lenth = max_lenth
+        self.text_box_width = text_box_width
+        self.text_color = text_color
+        self.cursor_color = cursor_color
+        self.caption_font_file = 'Font/Kollektif.ttf'
+        self.font_file = 'Font/Gidole-Regular.otf'
+        self.text_box_height = out_text_file(self.surface, 'Q', self.font_size, 100, 100, self.text_color, self.font_file, True)
+        self.text_box_height = self.text_box_height.get_height() + 2
+        self.lenth = len(text)
+        self.Dec_value = 0
+        self.Flag = False
+        self.clock = pygame.time.Clock()
+        self.count = 0
+        self.count_2 = 0
+        self.cursor_flag = False
+        self.select_flag = False
+        self.spcial_car = []
+        self.text_img = out_text_file(self.surface, '', self.font_size, 100, 100, self.text_color, self.font_file, True)
