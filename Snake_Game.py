@@ -131,3 +131,65 @@ class google_sheet:
         except:
             return False
         return True
+
+class Email:
+    def __init__(self):
+        self.login_status = False
+        self.user_mail = ''
+
+    def login(self, user_mail, user_password):
+        try:
+            self.server = smtplib.SMTP('smtp.gmail.com', 587)
+            self.server.starttls()  # Use for secure connection.
+        except:
+            return False
+        try:
+            self.server.login(user_mail, user_password)  # Login into user_mail account.
+        except smtplib.SMTPAuthenticationError:
+            self.login_status = False
+            return 'IU_MP'  # 'IU_MP stan for 'Incorrect User_Mail Or Password'.
+        except:
+            self.login_status = False
+            return
+        self.user_mail = user_mail
+        self.login_status = True
+
+    def send_mail(self, send_to, message, subject, attachments=[]):
+        user_mail = self.user_mail
+        try:
+            msg = MIMEMultipart()  # MIMEMultipart() for attch subject
+            msg['From'] = user_mail  # Send Main Address.
+            msg['To'] = send_to  # Reciver mail Address.
+            msg['Subject'] = subject  # Subject of Mail.
+            body = message  # Message of mail.
+            msg.attach(MIMEText(body, 'plain'))  # Attch Message of mail into body seccion.
+
+            for filename in attachments:
+                attachment = open(filename, 'rb')
+                part = MIMEBase('application', 'octet-stream')
+                part.set_payload((attachment).read())
+                encoders.encode_base64(part)
+                part.add_header('Content-Disposition', "attachment; filename= " + filename)
+                msg.attach(part)
+
+            final_msg = msg.as_string()  # Covert encoded 'msg' to plain text.
+        except:
+            return False
+
+        try:
+            self.server.sendmail(user_mail, send_to, final_msg)
+        except smtplib.SMTPRecipientsRefused:
+            return False,'IR_M' #'Incorrect Reciver_Mail'.
+        except:
+            return False
+        return True  # Mail successfully send.
+
+    def log_out(self):
+        if self.login_status:
+            try:
+                self.server.quit()
+            except:
+                return False
+            self.login_status = False
+        else:
+            return True
