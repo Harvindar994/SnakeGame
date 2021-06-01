@@ -276,4 +276,90 @@ class get_input:
             self.text_img = img
             return img
 
-    
+    def input_text(self,event_list):
+        self.font_file = 'Font/Gidole-Regular.otf'
+        for event in event_list:
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_BACKSPACE:
+                    self.Flag = False
+                    self.count = 0
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.lenth = 0
+                    self.text = ""
+                if event.key == pygame.K_BACKSPACE and self.lenth > 0:
+                    if self.select_flag:
+                        self.lenth = 0
+                        self.text = ""
+                    else:
+                        self.lenth -= 1
+                        self.text = self.text[0:self.lenth]
+                        self.Flag = True
+                if (event.unicode >= 'a' and event.unicode <= 'z') or (event.unicode >= 'A' and event.unicode <= 'Z'):
+                    if self.select_flag:
+                        self.lenth = 0
+                        self.text = ""
+                    if self.lenth < self.max_lenth:
+                        key = event.unicode
+                        self.text += key
+                        self.lenth += 1
+                    else:
+                        pass
+                if event.unicode in self.spcial_car:
+                    if self.select_flag:
+                        self.lenth = 0
+                        self.text = ""
+                    if self.lenth < self.max_lenth:
+                        key = event.unicode
+                        self.text += key
+                        self.lenth += 1
+                if event.key == 99 and self.lenth > 0 and (event.mod == 64 or event.mod == 128):
+                    if self.select_flag:
+                        clipboard.copy(self.text)
+                if event.key == 118 and (event.mod == 64 or event.mod == 128):
+                        text = clipboard.paste()
+                        if len(text)!=0:
+                            if len(text)>self.max_lenth:
+                                text = text[0:self.max_lenth]
+                        self.text = text
+                        self.lenth = len(text)
+                if not (event.key == 305 or event.key == 306):
+                    self.select_flag = False
+                if event.key == 97 and self.lenth > 0 and (event.mod == 64 or event.mod == 128):
+                    self.select_flag = True
+
+
+        if self.Flag and self.count < 10:
+            self.count += 1
+        elif self.Flag and self.lenth > 0:
+            self.lenth -= 1
+            self.text = self.text[0:self.lenth]
+
+        self.temp = self.text
+        if self.select_flag:
+            img = out_text_file(self.surface, self.temp, self.font_size, 100, 100, self.text_color, self.font_file, True, (41, 169, 234))
+        else:
+            img = out_text_file(self.surface, self.temp, self.font_size, 100, 100, self.text_color, self.font_file, True)
+        if img.get_width() > self.text_box_width:
+            while True:
+                self.temp = self.text[self.lenth - self.Dec_value::]
+                self.Dec_value += 1
+                if self.select_flag:
+                    img = out_text_file(self.surface, self.temp, self.font_size, 100, 100, self.text_color, self.font_file, True,(41, 169, 234))
+                else:
+                    img = out_text_file(self.surface, self.temp, self.font_size, 100, 100, self.text_color, self.font_file, True)
+                if not img.get_width() < self.text_box_width - 14:
+                    break
+        if self.count_2 < 10:
+            self.cursor_flag = True
+            self.count_2 += 1
+        elif self.count_2 < 20:
+            self.cursor_flag = False
+            self.count_2 += 1
+        else:
+            self.count_2 = 0
+
+        self.Dec_value = 0
+        self.surface.blit(img, (self.x + 2, self.y + 1))
+        if self.cursor_flag:
+            pygame.draw.line(self.surface, self.cursor_color, [self.x + 5 + img.get_width(), self.y + 2],[self.x + 5 + img.get_width(), self.y + self.text_box_height - 2])
