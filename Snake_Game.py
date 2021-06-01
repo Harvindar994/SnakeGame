@@ -565,3 +565,52 @@ class Setting:
         self.State = ""
         self.City = ""
         self.DOCA = ""
+
+    def check_setting(self, type=0):
+        try:
+            fp = open("Setting.ini",'rb')
+        except FileNotFoundError:
+            data = Setting()
+            if type == 1 or type == 0:
+                set_valuem(Background_sound, data.Music_Valume)
+            if type == 2 or type == 0:
+                set_valuem(Eat_Food_sound, data.Sound_valume)
+                set_valuem(Menu_sound, data.Sound_valume)
+                set_valuem(Error_sound, data.Sound_valume)
+                set_valuem(Welcome_sound, data.Sound_valume)
+                set_valuem(Show_extra_food_sound, data.Sound_valume)
+                set_valuem(Notify_sound, data.Sound_valume)
+                set_valuem(Crash_sound, data.Sound_valume)
+                set_valuem(Slide_sound, data.Sound_valume)
+            return data
+        try:
+            data = pickle.load(fp)
+        except:
+            fp.close()
+            data = Setting()
+            if type == 1 or type == 0:
+                set_valuem(Background_sound, data.Music_Valume)
+            if type == 2 or type == 0:
+                set_valuem(Eat_Food_sound, data.Sound_valume)
+                set_valuem(Menu_sound, data.Sound_valume)
+                set_valuem(Error_sound, data.Sound_valume)
+                set_valuem(Welcome_sound, data.Sound_valume)
+                set_valuem(Show_extra_food_sound, data.Sound_valume)
+                set_valuem(Notify_sound, data.Sound_valume)
+                set_valuem(Crash_sound, data.Sound_valume)
+                set_valuem(Slide_sound, data.Sound_valume)
+            return data
+
+        if type == 1 or type ==0:
+            set_valuem(Background_sound, data.Music_Valume)
+        if type == 2 or type ==0:
+            set_valuem(Eat_Food_sound, data.Sound_valume)
+            set_valuem(Menu_sound, data.Sound_valume)
+            set_valuem(Error_sound, data.Sound_valume)
+            set_valuem(Welcome_sound, data.Sound_valume)
+            set_valuem(Show_extra_food_sound, data.Sound_valume)
+            set_valuem(Notify_sound, data.Sound_valume)
+            set_valuem(Crash_sound, data.Sound_valume)
+            set_valuem(Slide_sound, data.Sound_valume)
+        fp.close()
+        return data
