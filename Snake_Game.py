@@ -235,3 +235,23 @@ class get_input:
         self.select_flag = False
         self.spcial_car = []
         self.text_img = out_text_file(self.surface, '', self.font_size, 100, 100, self.text_color, self.font_file, True)
+
+    def put_text(self):
+        self.surface.blit(self.text_img, [self.x+2, self.y+1])
+
+    def get_tex_box_size_image_of_text(self):
+        self.font_file = 'Font/Gidole-Regular.otf'
+        img = out_text_file(self.surface, self.text, self.font_size, 100, 100, self.text_color, self.font_file, True)
+        Lenth = 20
+        if img.get_width() > self.text_box_width:
+            while True:
+                temp = self.text[0:Lenth]
+                Lenth += 1
+                img = out_text_file(self.surface, temp, self.font_size, 100, 100, self.text_color, self.font_file,True)
+                if not img.get_width() < self.text_box_width - 14:
+                    break
+            self.text_img = img
+            return img
+        else:
+            self.text_img = img
+            return img
