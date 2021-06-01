@@ -255,3 +255,25 @@ class get_input:
         else:
             self.text_img = img
             return img
+
+    def get_tex_box_size_image_of_password(self):
+        self.font_file = 'Font/ProFontWindows.ttf'
+        password = ''
+        for e in self.text:
+            password += '*'
+        img = out_text_file(self.surface, password, self.font_size, 100, 100, self.text_color, self.font_file, True)
+        Lenth = 20
+        if img.get_width() > self.text_box_width:
+            while True:
+                temp = password[0:Lenth]
+                Lenth += 1
+                img = out_text_file(self.surface, temp, self.font_size, 100, 100, self.text_color, self.font_file,True)
+                if not img.get_width() < self.text_box_width - 14:
+                    break
+            self.text_img = img
+            return img
+        else:
+            self.text_img = img
+            return img
+
+    
