@@ -544,3 +544,24 @@ class get_input:
         self.surface.blit(img, (self.x + 2, self.y + 1))
         if self.cursor_flag:
             pygame.draw.line(self.surface, self.cursor_color, [self.x + 5 + img.get_width(), self.y + 2],[self.x + 5 + img.get_width(), self.y + self.text_box_height - 2])
+
+class Setting:
+    def __init__(self):
+        self.Music_Valume = 0.0390625
+        self.Music_Button_x = 281
+        self.Sound_button_x = 530
+        self.Sound_valume = 1.0
+        self.online_score = False
+        self.feedback_sended = False
+        self.login_status = False
+        self.Name = ""
+        self.Email = ""
+        self.Password = ""
+        self.PC_name = ""
+        self.Mac_Address = ""
+        self.IP_Address = ""
+        self.ISP = ""
+        self.Country = ""
+        self.State = ""
+        self.City = ""
+        self.DOCA = ""
