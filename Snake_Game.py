@@ -193,3 +193,19 @@ class Email:
             self.login_status = False
         else:
             return True
+
+class Button:
+    def __init__(self, surface, image, x, y):
+        self.surface = surface
+        self.image = pygame.image.load(image)
+        self.x = x
+        self.y = y
+        self.x1 = x+self.image.get_width()
+        self.y1 = y+self.image.get_height()
+    def put(self):
+        self.surface.blit(self.image, [self.x, self.y])
+    def collide(self, x, y):
+        if (x > self.x and x < self.x1) and (y > self.y and y < self.y1):
+            return True
+        else:
+            return False
