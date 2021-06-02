@@ -614,3 +614,77 @@ class Setting:
             set_valuem(Slide_sound, data.Sound_valume)
         fp.close()
         return data
+
+    def update_setting(self):
+        try:
+            fp = open("Setting.ini",'wb')
+        except:
+            return False
+        pickle.dump(self,fp)
+        fp.close()
+        return True
+
+
+class online_score_record:
+    snake = 10
+    Getting_data = False
+    def __int__(self):
+        self.High_score = 0
+        self.Name = ''
+        self.Email = ''
+
+    def update_score(self, name, score, Email):
+        while online_score_record.Getting_data:
+            pass
+        if not score > self.get_High_score():
+            return False
+        if not (len(name)>0 and len(Email)>0):
+            return False
+        if not (type(score) == int):
+            try:
+                score = int(score)
+            except:
+                return False
+        try:
+            fp = open("online_record.rc", "wb")
+        except:
+            return 0
+        self.High_score = score
+        self.Name = name
+        self.Email = Email
+        pickle.dump(self, fp)
+        fp.close()
+
+    def get_High_score(self):
+        online_score_record.Getting_data = True
+        try:
+            fp = open("online_record.rc", "rb")
+            data = pickle.load(fp)
+            fp.close()
+        except:
+            online_score_record.Getting_data = False
+            return 0
+        online_score_record.Getting_data = False
+        return data.High_score
+    def get_High_score_name(self):
+        online_score_record.Getting_data = True
+        try:
+            fp = open("online_record.rc", "rb")
+            data = pickle.load(fp)
+            fp.close()
+        except:
+            online_score_record.Getting_data = False
+            return ""
+        online_score_record.Getting_data = False
+        return data.Name
+    def get_High_score_email(self):
+        online_score_record.Getting_data = True
+        try:
+            fp = open("online_record.rc", "rb")
+            data = pickle.load(fp)
+            fp.close()
+        except:
+            online_score_record.Getting_data = False
+            return ""
+        online_score_record.Getting_data = False
+        return data.Email
