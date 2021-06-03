@@ -762,3 +762,35 @@ Menu_bk = pygame.image.load('Image/Menu_bk.png')
 pygame.display.set_icon(icon)
 pygame.display.set_caption("Snake Game")
 GameWindow = pygame.display.set_mode((692, 389))
+
+
+#---------------------------------Colors-----------------------------------
+Light_Pink = (255, 172, 182)
+white = (255, 255, 255)
+light_black = (43, 43, 43)
+black = (0, 0, 0)
+light_blue = (0, 135, 255)
+Yellow = (248, 207, 44)
+Red = (255, 23, 68)
+orange = (255, 98, 11)
+light_green = (114, 252, 56)
+
+#---------------------------------Global Variables-----------------------------------
+Close_game = False
+Start_x = 346
+Start_y = 38
+Diffrence = 117
+Hight = 270
+Width = 78
+Mouse_x = 0
+Mouse_y = 0
+Setting_obj = Setting()
+clock = pygame.time.Clock()
+Sheet = None
+Gmail = Email()
+Online_status = False
+IP_ADDRESS = None
+MAC_ADDRESS = None
+COMPUTER_NAME = None
+ONLINE_DATE = None
+Game_Version = "1.0.0"
