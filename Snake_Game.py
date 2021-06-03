@@ -816,3 +816,51 @@ controling_thread = None
 ##----------------------------------------Global Flags to Controling-------------------------
 Feedback_sending = True
 OTP_sended = False
+
+
+def get_online_date():
+    #from urllib.request import urlopen
+    try:
+        res = urlopen('http://just-the-time.appspot.com/')
+        time_str = str(res.read().strip())
+        date = time_str[2:12]
+    except:
+        return None
+    return date
+
+def get_ip_address_with_details():
+    #import json
+    #from urllib.request import urlopen
+    url = 'http://ipinfo.io/json'
+    try:
+        response = urlopen(url)
+        data = json.load(response)
+    except:
+        return None
+    return data
+
+def get_computer_name():
+    #import socket
+    try:
+        name = socket.gethostname()
+    except:
+        return None
+    return name
+
+def get_mac_address():
+    #import uuid
+    #import re
+    try:
+        mac = ':'.join(re.findall('..', '%012x' % uuid.getnode()))
+    except:
+        return
+    return mac
+
+def checkOnlineState():
+    try:
+        socket.create_connection(("www.google.com",80))
+        return True
+    except OSError:
+        return False
+    except:
+        return False
