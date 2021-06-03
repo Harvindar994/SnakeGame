@@ -794,3 +794,25 @@ MAC_ADDRESS = None
 COMPUTER_NAME = None
 ONLINE_DATE = None
 Game_Version = "1.0.0"
+
+
+#---------------------------------------Google Sheets-------------------------
+Jeson_secret_file = 'Feedback.json'
+Feedback_sheet_Name = 'FeedBack_Snake_Game_1.0.0'
+User_account_sheet_name = 'User Accounts'
+High_Score_Sheet_name = 'High Score'
+Service_Email_sheet_name = 'Service Email'
+Service_Email_sheet = google_sheet(Service_Email_sheet_name, Jeson_secret_file)
+Online_score_sheet = google_sheet(High_Score_Sheet_name, Jeson_secret_file)
+Feedback_sheet = google_sheet(Feedback_sheet_Name,Jeson_secret_file)
+User_account_sheet = google_sheet(User_account_sheet_name, Jeson_secret_file)
+
+#----------------------------------------Check Setting------------------------
+Setting_obj.check_setting()
+
+#----------------------------------------Global Flags to Control Threads-------------------------
+controling_thread = None
+
+##----------------------------------------Global Flags to Controling-------------------------
+Feedback_sending = True
+OTP_sended = False
