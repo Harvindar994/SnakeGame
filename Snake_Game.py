@@ -729,3 +729,36 @@ class score_record:
         except:
             return 0
         return  data.High_score
+
+
+#-------------------------------------------Loding Sound Files--------------------------
+Background_sound = load_sound("Sound/background_sound.wav")
+Eat_Food_sound = load_sound("Sound/Eat_food_sound.wav")
+Menu_sound = load_sound("Sound/Menu sound.wav")
+Star_sound = load_sound("Sound/Star_sound.wav")
+Click_sound = load_sound("Sound/Click_sound.wav")
+Error_sound = load_sound("Sound/Error_sound.wav")
+Welcome_sound = load_sound("Sound/Welcome_sound.wav")
+Show_extra_food_sound = load_sound("Sound/Show_extra_food_sound.wav")
+Notify_sound = load_sound("Sound/Notify_sound.wav")
+Crash_sound = load_sound("Sound/Crash_sound.wav")
+Slide_sound = load_sound("Sound/Swing_sound.wav")
+
+#------------------------------------Loding Image Files-----------------------------
+About_Img = pygame.image.load("Image\About.png")
+Menu_img = pygame.image.load("Image\Menu_temp.png")
+main_menu_img = pygame.image.load("Image\Menu.png")
+play_ground = pygame.image.load("Image\Play_ground.png")
+game_over_img = pygame.image.load("Image/game_over.png")
+icon  = pygame.image.load("Image/icon.png")
+setting_img = pygame.image.load("Image/Setting.png")
+Send_feedback = pygame.image.load("Image/Feedback.png")
+create_ac_img = pygame.image.load('Image/Create_account.png')
+Login_img = pygame.image.load("Image/Login.png")
+line  = pygame.image.load('Image/line.png')
+Menu_bk = pygame.image.load('Image/Menu_bk.png')
+
+#----------------------------------Working On Game Window---------------------
+pygame.display.set_icon(icon)
+pygame.display.set_caption("Snake Game")
+GameWindow = pygame.display.set_mode((692, 389))
