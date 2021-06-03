@@ -688,3 +688,44 @@ class online_score_record:
             return ""
         online_score_record.Getting_data = False
         return data.Email
+
+
+class score_record:
+    snake  = 10
+    updating_data = False
+    def __int__(self):
+        self.High_score = 0
+
+    def update_score(self, score):
+        score_record.updating_data = False
+        high_score = self.get_High_score()
+        score_record.updating_data = True
+        try:
+            if score > high_score:
+                try:
+                    fp = open("record.rc","wb")
+                except:
+                    score_record.updating_data = False
+                    return 0
+                self.High_score = score
+                pickle.dump(self, fp)
+                fp.close()
+                score_record.updating_data = False
+                return score
+            else:
+                score_record.updating_data = False
+                return high_score
+        except:
+            score_record.updating_data = False
+            return high_score
+
+    def get_High_score(self):
+        while score_record.updating_data:
+            pass
+        try:
+            fp = open("record.rc","rb")
+            data = pickle.load(fp)
+            fp.close()
+        except:
+            return 0
+        return  data.High_score
