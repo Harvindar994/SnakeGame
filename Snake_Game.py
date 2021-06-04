@@ -1028,3 +1028,56 @@ def online_score_handler():
                 else:
                     Online_score_sheet.sheet_opend = False
                     continue
+
+
+def google_sheet_handler():
+    global Setting_obj
+    global User_account_sheet
+    global Online_status
+    global Feedback_sheet, Gmail
+    global IP_ADDRESS
+    global MAC_ADDRESS
+    global COMPUTER_NAME
+    global ONLINE_DATE
+    global controling_thread
+    email_address = ''
+    password = ''
+    Setting_obj = Setting_obj.check_setting()
+
+    while controling_thread:
+        if Online_status:
+            ONLINE_DATE = get_online_date()
+            if not Feedback_sheet.sheet_opend and controling_thread and Online_status:
+                Feedback_sheet.open_sheet()
+            if not Service_Email_sheet.sheet_opend and controling_thread and Online_status:
+                Service_Email_sheet.open_sheet()
+            if not Gmail.login_status and Service_Email_sheet.sheet_opend and controling_thread and Online_status:
+                data = Service_Email_sheet.get_row_data(2)
+                if type(data)==list and len(data)>=2:
+                    email_address = data[0]
+                    password = data[1]
+                    if email_address != '' and password != '' and controling_thread and Online_status:
+                        Gmail.login(email_address, password)
+            if not User_account_sheet.sheet_opend and controling_thread and Online_status:
+                User_account_sheet.open_sheet()
+            if IP_ADDRESS==None and controling_thread and Online_status:
+                IP_ADDRESS = get_ip_address_with_details()
+            if MAC_ADDRESS==None or MAC_ADDRESS=='' and controling_thread and Online_status:
+                MAC_ADDRESS = get_mac_address()
+            if COMPUTER_NAME==None or COMPUTER_NAME=='' and controling_thread and Online_status:
+                COMPUTER_NAME = get_computer_name()
+        else:
+            Feedback_sheet.sheet_opend = False
+            User_account_sheet.sheet_opend = False
+            Online_score_sheet.sheet_opend = False
+            COMPUTER_NAME = None
+            MAC_ADDRESS = None
+            ONLINE_DATE = None
+            IP_ADDRESS = None
+            email_address = ''
+            password = ''
+            try:
+                Gmail.log_out()
+                Gmail.login_status = False
+            except:
+                pass
