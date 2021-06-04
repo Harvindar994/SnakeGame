@@ -864,3 +864,34 @@ def checkOnlineState():
         return False
     except:
         return False
+
+
+def custom_out_text(surface, text, x, x1, y, color, size, f_file = "Font/Kollektif.ttf"):
+    text_img = out_text_file(surface, text, size, 0, 0, color, f_file, True)
+    put_point_x = x + ((x1 - x) // 2)
+    put_point_x = put_point_x - (text_img.get_width() // 2)
+    surface.blit(text_img, [put_point_x, y])
+
+def stop_sound(sound_file):
+    pygame.mixer.Sound.stop(sound_file)
+
+def caption(text, x, y, window_width = 692, window_height = 389, bk_color = (255, 255, 255), border_color = (43, 43, 43)):
+    difrence_between_m_y = 16
+    difrence_between_m_x = 7
+    text_img = out_text_file(GameWindow, text, 12, 0, 0,black, "Font\DroidSansMono.ttf", True)
+    rect_width = text_img.get_width()+6
+    rect_height = text_img.get_height()+4
+    rect_x = x+difrence_between_m_x
+    rect_y = y+difrence_between_m_y
+    if (rect_y+rect_height > window_height) and (rect_x+rect_width > window_width):
+        rect_x = x-rect_width
+        rect_y = y-rect_height
+    if rect_x+rect_width > window_width:
+        rect_x = rect_x-rect_width
+    if rect_y+rect_height > window_height:
+        rect_x = x
+        rect_y = y-rect_height
+
+    pygame.draw.rect(GameWindow, bk_color,[rect_x, rect_y, rect_width, rect_height])
+    pygame.draw.rect(GameWindow, border_color, [rect_x, rect_y, rect_width, rect_height], 1)
+    GameWindow.blit(text_img, [rect_x+3, rect_y+2]) #10, 5
