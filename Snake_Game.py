@@ -1081,3 +1081,29 @@ def google_sheet_handler():
                 Gmail.login_status = False
             except:
                 pass
+
+def put_img(surface, file, x, y, display_or_nor=True):
+    try:
+        image = pygame.image.load(file)
+    except:
+        return 0
+    if display_or_nor:
+        try:
+            surface.blit(image, [x, y])
+        except:
+            return 0
+    return image.get_width(), image.get_height(), image
+
+def open_url(url):
+    import webbrowser
+    try:
+        webbrowser.get('chrome').open_new(url)
+    except:
+        try:
+            webbrowser.get('firefox').open_new_tab(url)
+        except:
+            try:
+                webbrowser.open(url, new=1)
+            except:
+                return False
+    return True
