@@ -1107,3 +1107,35 @@ def open_url(url):
             except:
                 return False
     return True
+
+
+#------------------ Temp Function to define screen objects ----------------------
+def selecter(x,y,mouse_x,mouse_y,color=white):
+    pygame.draw.rect(GameWindow,color,[x,y,mouse_x-x,mouse_y-y],1)
+def define_pos(image,x,y):
+    flag = False
+    x = 0
+    y = 0
+    Mouse_x = 0
+    Mouse_y = 0
+    while True:
+        for event in pygame.event.get():
+            Mouse_x, Mouse_y = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit(0)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = pygame.mouse.get_pos()
+                if flag:
+                    print("Mouse X : ", Mouse_x)
+                    print("Mouse Y : ", Mouse_y)
+                    flag = False
+                else:
+                    flag = True
+                    print("POS X : ", x)
+                    print("POS Y : ", y)
+
+        GameWindow.blit(image, [0, 0])
+        if flag:
+            selecter(x, y, Mouse_x, Mouse_y, orange)
+        pygame.display.update()
