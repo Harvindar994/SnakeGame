@@ -895,3 +895,60 @@ def caption(text, x, y, window_width = 692, window_height = 389, bk_color = (255
     pygame.draw.rect(GameWindow, bk_color,[rect_x, rect_y, rect_width, rect_height])
     pygame.draw.rect(GameWindow, border_color, [rect_x, rect_y, rect_width, rect_height], 1)
     GameWindow.blit(text_img, [rect_x+3, rect_y+2]) #10, 5
+
+
+def online_work_handler():
+    global Online_score_sheet
+    global Setting_obj
+    global Online_status
+    global User_account_sheet
+    global Feedback_sheet, Gmail
+    global IP_ADDRESS
+    global MAC_ADDRESS
+    global COMPUTER_NAME
+    global ONLINE_DATE
+    global controling_thread
+    global Service_Email_sheet
+    score_thread_status = False
+    online_work_thread_status = False
+    Setting_obj = Setting_obj.check_setting()
+    controling_thread = True
+    Online_score_thread = threading.Thread(target=online_score_handler)
+    online_sheet_handler = threading.Thread(target=google_sheet_handler)
+    while controling_thread:
+        Online_status = checkOnlineState()
+        if not Online_status:
+            Online_score_sheet.sheet_opend = False
+            Feedback_sheet.sheet_opend = False
+            User_account_sheet.sheet_opend = False
+            Service_Email_sheet.sheet_opend = False
+            Gmail.login_status = False
+            COMPUTER_NAME = None
+            MAC_ADDRESS = None
+            ONLINE_DATE = None
+            IP_ADDRESS = None
+        else:
+            if not online_work_thread_status:
+                online_sheet_handler.start()
+                online_work_thread_status = True
+            if not score_thread_status:
+                if Setting_obj.login_status and Setting_obj.online_score:
+                    Online_score_thread.start()
+                    score_thread_status = True
+        """print("Online_score_Scheet_opend : ", Online_score_sheet.sheet_opend)
+        print("FeedBack sheet Status : ", Feedback_sheet.sheet_opend)
+        print("User account sheet status : ", User_account_sheet.sheet_opend)
+        print("Online Score Scheet  : ", Online_score_sheet.sheet_opend)
+        print("IP Address : ", IP_ADDRESS)
+        print("MAC ADDDRESS : ", MAC_ADDRESS)
+        print("ONLINE DATE : ", ONLINE_DATE)
+        print("COMPUTER NAME : ", COMPUTER_NAME)"""
+    else:
+        Online_score_sheet.sheet_opend = False
+        Feedback_sheet.sheet_opend = False
+        User_account_sheet.sheet_opend = False
+        Online_score_sheet.sheet_opend = False
+        COMPUTER_NAME = None
+        MAC_ADDRESS = None
+        ONLINE_DATE = None
+        IP_ADDRESS = None
