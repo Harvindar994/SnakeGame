@@ -952,3 +952,79 @@ def online_work_handler():
         MAC_ADDRESS = None
         ONLINE_DATE = None
         IP_ADDRESS = None
+
+
+def online_score_handler():
+    global Setting_obj
+    global Online_score_sheet
+    global Local_high_score
+    global Online_High_score
+    global Online_High_score_email
+    global Online_High_score_name
+    global Playing_Status
+    global controling_thread
+    Clock = pygame.time.Clock()
+    Online_score = online_score_record()
+    local_score = score_record()
+    Setting_obj = Setting_obj.check_setting()
+    global Online_score_handler_number
+    while controling_thread:
+        if Setting_obj.login_status and Setting_obj.online_score:
+            if Online_status:
+                if not Online_score_sheet.sheet_opend:
+                    Online_score_sheet.open_sheet()
+                    continue
+                elif Online_status and Online_score_sheet.sheet_opend and controling_thread and Setting_obj.login_status and Setting_obj.online_score:
+                    data = Online_score_sheet.get_row_data(2)
+                    sheet_lenth = False
+                    if Playing_Status:
+                        local_high_score = Local_high_score
+                    else:
+                        local_high_score = local_score.get_High_score()
+
+                    if type(data) == list:
+                        if sheet_lenth:
+                            if local_high_score > 0:
+                                if Online_status and Online_score_sheet.sheet_opend and controling_thread and Setting_obj.login_status and Setting_obj.online_score:
+                                    row = [local_high_score, Setting_obj.Name, Setting_obj.Email, Setting_obj.Password,ONLINE_DATE]
+                                    Online_score_sheet.update_row_data(row, 2)
+                                    Online_High_score = local_high_score
+                                    Online_High_score_name = Setting_obj.Name
+                                    Online_High_score_email = Setting_obj.Email
+                                else:
+                                    Online_score_sheet.sheet_opend = False
+                                    continue
+                                if Setting_obj.login_status and Setting_obj.online_score:
+                                    Online_score.update_score(Setting_obj.Name, local_high_score, Setting_obj.Email)
+                                else:
+                                    Online_score_sheet.sheet_opend = False
+                                    continue
+                            continue
+                        elif len(data) == 5:
+                            if local_high_score > int(data[0]):
+                                if Online_status and Online_score_sheet.sheet_opend and controling_thread and Setting_obj.login_status and Setting_obj.online_score:
+                                    row = [local_high_score, Setting_obj.Name, Setting_obj.Email, Setting_obj.Password,ONLINE_DATE]
+                                    Online_score_sheet.update_row_data(row, 2)
+                                    Online_High_score = local_high_score
+                                    Online_High_score_name = Setting_obj.Name
+                                    Online_High_score_email = Setting_obj.Email
+                                else:
+                                    Online_score_sheet.sheet_opend = False
+                                    continue
+                                if Setting_obj.login_status and Setting_obj.online_score:
+                                    Online_score.update_score(Setting_obj.Name, local_high_score, Setting_obj.Email)
+                                else:
+                                    Online_score_sheet.sheet_opend = False
+                                    continue
+                            else:
+                                Online_score.update_score(data[1], int(data[0]), data[2])
+                                Online_High_score = int(data[0])
+                                Online_High_score_name = data[1]
+                                Online_High_score_email = data[2]
+                            continue
+                    else:
+                        Online_score_sheet.sheet_opend = False
+                        continue
+                else:
+                    Online_score_sheet.sheet_opend = False
+                    continue
