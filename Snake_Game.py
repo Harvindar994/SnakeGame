@@ -1696,3 +1696,307 @@ def login():
 
         event_list = []
         pygame.display.update()
+
+
+def create_account():
+    global GameWindow
+    global create_ac_img
+    global GameWindow
+    global Mouse_y, Mouse_x
+    global MAC_ADDRESS
+    global IP_ADDRESS
+    global ONLINE_DATE
+    global COMPUTER_NAME
+
+    cancel_light_blue = Button(GameWindow,"Image/light_blue_button.png",329,338)
+    cancel_dark_blue = Button(GameWindow, "Image/dark_blue_button.png", 330, 338)
+    create_ac_light_orange = Button(GameWindow, "Image/light_orange_button.png", 473, 338)
+    create_ac_dark_orange = Button(GameWindow, "Image/dark_orange_button.png", 473, 338)
+    view_pass_green = Button(GameWindow, "Image/view_pass_green.png",595, 282)
+    view_pass_white = Button(GameWindow, "Image/view_pass_white.png",595, 282)
+    hide_pass_green = Button(GameWindow, "Image/hide_pass_green.png", 595, 282)
+    hide_pass_white = Button(GameWindow, "Image/hide_pass_white.png", 595, 282)
+    checked = Button(GameWindow, "Image/checked.png", 595, 95)
+    warning = Button(GameWindow, "Image/warning_orange.png", 595, 95)
+    checked2 = Button(GameWindow, "Image/checked.png", 595, 157)
+    warning2 = Button(GameWindow, "Image/warning_orange.png", 595, 157)
+    checked3 = Button(GameWindow, "Image/checked.png", 595, 218)
+    warning3 = Button(GameWindow, "Image/warning_orange.png", 595, 218)
+    checked4 = Button(GameWindow, "Image/checked.png", 561, 282)
+    warning4 = Button(GameWindow, "Image/warning_orange.png", 561, 282)
+    send_white = Button(GameWindow, "Image/send-button-white.png",561,218)
+    send_green = Button(GameWindow, "Image/send-button-green.png",561,218)
+    event_list = []
+    Name = get_input(GameWindow, '',196, 94, 20,30,379,white,white)
+    Email = get_input(GameWindow, '', 196, 156, 20, 350, 379, white, white)
+    OTP = get_input(GameWindow, '', 196, 217, 20, 6, 379, white, white)
+    Password = get_input(GameWindow, '', 196, 281, 20, 18, 379, white, white)
+    Name.spcial_car = [' ']
+    Email.spcial_car = ['@', '.', '-', '_', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '!', '#', '$', '%', '&',
+                        "'", '*', '+', '/', '=', '?', '^', '`', '{', '|', '}', '~', '"', '(', ')', ',', ':', ';', '<',
+                        '>', '[', '\\', ']']
+    Password.spcial_car = ['@', '.', '-', '_', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '!', '#', '$', '%', '&',
+                        "'", '*', '+', '/', '=', '?', '^', '`', '{', '|', '}', '~', '"', '(', ')', ',', ':', ';', '<',
+                        '>', '[', '\\', ']']
+    input_name = True
+    input_email = False
+    input_otp = False
+    input_password = False
+    Show_password = False
+    icon_flag1 = True
+    icon_flag2 = False
+    icon_flag3 = False
+    icon_flag4 = False
+    verification_flag = False
+    OTP_PASS = 0
+    Otp_Send_button = False
+    otp_send_on = ''
+    otp_sended = False
+    while True:
+        for event in pygame.event.get():
+            Mouse_x, Mouse_y = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                close_game()
+            if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+                event_list.append(event)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if view_pass_green.collide(Mouse_x, Mouse_y):
+                        if Show_password:
+                            Password.get_tex_box_size_image_of_password()
+                            Show_password = False
+                        else:
+                            Password.get_tex_box_size_image_of_password()
+                            Show_password = True
+
+                    if collide(Mouse_x, Mouse_y,196,89,575,124):
+                        input_name = True
+                        icon_flag1 = True
+                        input_email = False
+                        input_otp = False
+                        input_password = False
+                    if collide(Mouse_x, Mouse_y,196,151,575,186):
+                        input_name = False
+                        input_email = True
+                        icon_flag2 = True
+                        Otp_Send = False
+                        input_otp = False
+                        input_password = False
+                    if collide(Mouse_x, Mouse_y,196,212,575,250):
+                        input_name = False
+                        input_email = False
+                        input_otp = True
+                        icon_flag3 = True
+                        input_password = False
+                    if collide(Mouse_x, Mouse_y,196,276,575,311):
+                        input_name = False
+                        input_email = False
+                        input_otp = False
+                        input_password = True
+                        icon_flag4 = True
+                    if Otp_Send_button and send_green.collide(Mouse_x, Mouse_y):
+                        OTP_PASS = random.randint(100000, 999999)
+                        if len(Name.text) >= 5:
+                            if validate_email(Email.text):
+                                if Online_status:
+                                    if Gmail.login_status:
+                                        send_mail = threading.Thread(target=send_otp,args=(Email.text, OTP_PASS, Name.text))
+                                        send_mail.start()
+                                        otp_send_on = Email.text
+                                        otp_sended = True
+                                        msg_box(GameWindow, 'OTP Successfully sended,On your email,please check email.')
+                                    else:
+                                        msg_box(GameWindow, "Unable to send OTP,please check your,Internet Connection!")
+                                else:
+                                    msg_box(GameWindow, "Unable to send OTP,please check your,Internet Connection!")
+                            else:
+                                msg_box(GameWindow, "Please enter a valid,Email address")
+                                input_name = False
+                                input_email = True
+                                icon_flag2 = True
+                                input_otp = False
+                                input_password = False
+                        else:
+                            msg_box(GameWindow, 'Enter Minimum Five,charector in name')
+                            input_name = True
+                            input_email = False
+                            icon_flag1 = True
+                            input_otp = False
+                            input_password = False
+
+                    Name.get_tex_box_size_image_of_text()
+                    Email.get_tex_box_size_image_of_text()
+                    OTP.get_tex_box_size_image_of_text()
+                    if Show_password:
+                        Password.get_tex_box_size_image_of_text()
+                    else:
+                        Password.get_tex_box_size_image_of_password()
+                    if cancel_light_blue.collide(Mouse_x, Mouse_y):
+                        return
+                    if create_ac_light_orange.collide(Mouse_x, Mouse_y):
+                        if len(Name.text) >= 5:
+                            if validate_email(Email.text):
+                                if OTP.text == str(OTP_PASS):
+                                    if validate_password(Password.text, 8):
+                                        verification_flag = True
+                                    else:
+                                        msg_box(GameWindow,'Please Enter a valid, Password. Use minimum one,Spcial Cherector/ Digit/,Capital letter & one Small letter')
+                                else:
+                                    msg_box(GameWindow, 'Invalid OTP')
+                            else:
+                                msg_box(GameWindow, 'Please Enter Valid,Email Address')
+                        else:
+                            msg_box(GameWindow, 'Enter Minimum Five,charector in name')
+
+                        if Online_status and verification_flag:
+                            ip_address = ""
+                            internet_service_provider = ""
+                            city = ""
+                            country = ""
+                            State = ""
+                            if User_account_sheet.sheet_opend:
+                                caption('Creating Account', 478, 390)
+                                pygame.display.update()
+                                Reg_mail = Email.text.lower()
+                                status, row, col = email_already_reg(Reg_mail)
+                                if not status:
+                                    if MAC_ADDRESS==None:
+                                        MAC_ADDRESS = ''
+                                    if COMPUTER_NAME==None:
+                                        COMPUTER_NAME = ''
+                                    if ONLINE_DATE ==None:
+                                        ONLINE_DATE = ''
+                                    if IP_ADDRESS!=None:
+                                        try:
+                                            ip_address = IP_ADDRESS['ip']
+                                            internet_service_provider = IP_ADDRESS['org']
+                                            city = IP_ADDRESS['city']
+                                            country = IP_ADDRESS['country']
+                                            State = IP_ADDRESS['region']
+                                        except:
+                                            ip_address = ""
+                                            internet_service_provider = ""
+                                            city = ""
+                                            country = ""
+                                            State = ""
+
+                                    row = [Name.text,Reg_mail,Password.text,COMPUTER_NAME,MAC_ADDRESS,ip_address,internet_service_provider,country,State,city,ONLINE_DATE]
+                                    #Name,Email,Password,PC Name,Mac Address,IP Address,ISP,Country,State,City,DOCA
+                                    if Online_status and User_account_sheet.sheet_opend:
+                                        re = User_account_sheet.insert_row_in_sheet(row,2)
+                                    else:
+                                        re = False
+                                    if re:
+                                        caption(' Account Created ', 478, 390)
+                                        pygame.display.update()
+                                        Name.text = ''
+                                        Name.lenth = 0
+                                        Email.text = ''
+                                        Email.lenth = 0
+                                        OTP.text = ''
+                                        OTP.lenth = 0
+                                        Password.text = ''
+                                        Password.lenth = 0
+                                        Name.get_tex_box_size_image_of_text()
+                                        Email.get_tex_box_size_image_of_text()
+                                        OTP.get_tex_box_size_image_of_text()
+                                        Password.get_tex_box_size_image_of_password()
+                                        input_name = False
+                                        input_email = False
+                                        input_otp = False
+                                        input_password = False
+                                        Show_password = False
+                                        icon_flag1 = False
+                                        icon_flag2 = False
+                                        icon_flag3 = False
+                                        icon_flag4 = False
+                                        verification_flag = False
+                                        OTP_PASS = 0
+                                        Otp_Send_button = False
+                                        otp_send_on = ''
+                                        otp_sended = False
+                                        msg_box(GameWindow, 'Account successfully,Created.')
+                                        return True
+                                    else:
+                                        msg_box(GameWindow, 'Fail to create Account,Please try again.')
+                                else:
+                                    msg_box(GameWindow, "Email Address,already registered.")
+                            else:
+                                msg_box(GameWindow, 'Please Check Your,Internet Connection')
+                        elif verification_flag:
+                            msg_box(GameWindow, 'Please Check Your,Internet Connection')
+
+        GameWindow.blit(create_ac_img, [0, 0])
+        #---------- buttons and icons ----------------------
+        if cancel_light_blue.collide(Mouse_x, Mouse_y):
+            cancel_light_blue.put()
+        else:
+            cancel_dark_blue.put()
+        if create_ac_light_orange.collide(Mouse_x, Mouse_y):
+            create_ac_light_orange.put()
+        else:
+            create_ac_dark_orange.put()
+        if Show_password:
+            if view_pass_white.collide(Mouse_x, Mouse_y):
+                view_pass_white.put()
+            else:
+                view_pass_green.put()
+        else:
+            if hide_pass_white.collide(Mouse_x, Mouse_y):
+                hide_pass_white.put()
+            else:
+                hide_pass_green.put()
+        if icon_flag1:
+            if len(Name.text)>=5:
+                checked.put()
+            else:
+                warning.put()
+        if icon_flag2:
+            if validate_email(Email.text):
+                checked2.put()
+            else:
+                Otp_Send_button = False
+                warning2.put()
+        if icon_flag3:
+            if validate_email(Email.text):
+                Otp_Send_button = True
+            if OTP.text == str(OTP_PASS):
+                checked3.put()
+            else:
+                warning3.put()
+        if icon_flag4:
+            if validate_password(Password.text, 8):
+                checked4.put()
+            else:
+                warning4.put()
+        if otp_sended:
+            if not otp_send_on == Email.text:
+                OTP_PASS = 0
+        if Otp_Send_button:
+            if send_white.collide(Mouse_x, Mouse_y):
+                send_white.put()
+            else:
+                send_green.put()
+        #------------inputs---------------------
+        if input_name:
+            Name.input_text(event_list)
+        else:
+            Name.put_text()
+        if input_email:
+            Email.input_text(event_list)
+        else:
+            Email.put_text()
+        if input_otp:
+            OTP.input_numbers(event_list)
+        else:
+            OTP.put_text()
+        if input_password:
+            if Show_password:
+                Password.input_text(event_list)
+            else:
+                Password.input_password(event_list)
+        else:
+            Password.put_text()
+        event_list = []
+
+        pygame.display.update()
