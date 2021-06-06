@@ -2023,3 +2023,47 @@ def validate_password(password, minimum_lenth):
                 return True
             break
     return False
+
+
+def send_feedback():
+    global Setting_obj
+    Setting_obj = Setting_obj.check_setting()
+    global Close_online_handler
+    global Sheet
+    global Mouse_y, Mouse_x
+    global Online_status
+    global IP_ADDRESS
+    global COMPUTER_NAME
+    global MAC_ADDRESS
+    global ONLINE_DATE
+    icon_flag_1 = False
+    icon_flag_2 = False
+    icon_flag_3 = False
+    tick_icon = pygame.image.load("Image/tick.png")
+    warning_icon = pygame.image.load("Image/warning.png")
+    close_green = pygame.image.load("Image/close_green.png")
+    close_white = pygame.image.load("Image/close_white.png")
+    send_green = pygame.image.load("Image/send_green.png")
+    send_white = pygame.image.load("Image/send_white.png")
+    if Setting_obj.login_status and Setting_obj.online_score:
+        Name = get_input(GameWindow, Setting_obj.Name, 190, 143, 20, 50, 395, white, white)
+        Email = get_input(GameWindow, Setting_obj.Email, 190, 214, 20, 350, 395, white, white)
+        Feedback = get_input(GameWindow, '', 190, 287, 20, 400, 395, white, white)
+        Name.get_tex_box_size_image_of_text()
+        Email.get_tex_box_size_image_of_text()
+        name_flag = False
+        email_flag = False
+        feedback_flag = True
+        icon_flag_1 = True
+        icon_flag_2 = True
+        icon_flag_3 = True
+    else:
+        Name = get_input(GameWindow, '', 190, 143, 20, 50, 395, white, white)
+        Email = get_input(GameWindow, '', 190, 214, 20, 350, 395, white, white)
+        Feedback = get_input(GameWindow, '', 190, 287, 20, 400, 395, white, white)
+        name_flag = True
+        email_flag = False
+        feedback_flag = False
+        icon_flag_1 = True
+        icon_flag_2 = False
+        icon_flag_3 = False
