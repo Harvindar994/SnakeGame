@@ -1139,3 +1139,90 @@ def define_pos(image,x,y):
         if flag:
             selecter(x, y, Mouse_x, Mouse_y, orange)
         pygame.display.update()
+
+def msg_box(surface,msg):
+    global Mouse_x,Mouse_y
+    pygame.image.save(surface, 'temp.png')
+    pop_image = pygame.image.load("Image/popup_msg.png")
+    close_white = pygame.image.load("Image/white_close.png")
+    close_orange = pygame.image.load("Image/orange_close.png")
+    bk_img = pygame.image.load("temp.png")
+    font_size = 20
+    Stop_font_adjustment = False
+    msg = msg.split(',')
+    close_msg = False
+    step = 25
+    while not Stop_font_adjustment:
+        Max_width_line = 0
+        center_x = 350
+        center_y = 188
+        hight = 0
+        width = 0
+        x = 346
+        y = 194
+        msg_img = []
+        for m in msg:
+            img = out_text_file(surface, m, font_size, 0, 0, white, "Font/DroidSansMono.ttf", True)
+            temp = img.get_width()
+            if temp > Max_width_line:
+                Max_width_line = temp
+            msg_img.append(img)
+
+        text_pos = 200
+        if len(msg)%2!=0:
+            height = msg_img[0].get_height()//2
+            text_pos -= height
+
+        msg_lenth = len(msg)
+        if msg_lenth>1:
+            half = msg_lenth//2
+            while half!=0:
+                text_pos -= step
+                half -= 1
+        elif msg_lenth==1:
+            text_pos = text_pos - (msg_img[0].get_height()//2)
+
+        temp = len(msg_img)
+        if text_pos+(temp*step)>273:
+            font_size -= 2
+            step -= 2
+            continue
+        elif 174+Max_width_line > 518 or 518-Max_width_line < 174:
+            font_size -= 2
+            continue
+        Stop_font_adjustment = True
+
+    while True:
+        for event in pygame.event.get():
+            Mouse_x, Mouse_y = pygame.mouse.get_pos()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if Mouse_x >= 490 and Mouse_x <= 490 + 16 and Mouse_y >= 140 and Mouse_y <= 156:
+                    close_msg = True
+        bgimg = pygame.transform.scale(pop_image, (width, hight)).convert_alpha()
+        surface.blit(bk_img, [0, 0])
+        surface.blit(bgimg, [x, y])
+        if not close_msg:
+            if width<pop_image.get_width():
+                hight += 30 #22 # 22
+                width += 56 #44 # 40
+                x -= 28 #22, 11 #20, 11
+                y -= 15
+            else:
+                if Mouse_x >= 490 and Mouse_x<=490+16 and Mouse_y >= 140 and Mouse_y <= 156:
+                    surface.blit(close_orange, [490,140])
+                else:
+                    surface.blit(close_white,[490,140])
+                temp = text_pos
+                for text in msg_img:
+                    img_width = text.get_width()
+                    surface.blit(text, [center_x-(img_width//2), temp])
+                    temp += step
+        else:
+            if width>0:
+                hight -= 30 #22
+                width -= 56 #44, 40
+                x += 28 #22, 11, #20, 11
+                y += 15
+            else:
+                return
+        pygame.display.update()
