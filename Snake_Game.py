@@ -2078,3 +2078,151 @@ def send_feedback():
     city = ""
     country = ""
     State = ""
+
+    while True:
+        for event in pygame.event.get():
+            Mouse_x, Mouse_y = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                close_game()
+            if event.type == pygame.KEYUP or event.type == pygame.KEYDOWN:
+                event_list.append(event)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if (Mouse_x >= 190 and Mouse_x <= 586) and (Mouse_y >= 136 and Mouse_y <= 175):
+                        icon_flag_1 = True
+                        name_flag = True
+                        Email.get_tex_box_size_image_of_text()
+                        Feedback.get_tex_box_size_image_of_text()
+                        email_flag = False
+                        feedback_flag = False
+                    if (Mouse_x >= 190 and Mouse_x <= 586) and (Mouse_y >= 207 and Mouse_y <= 246):
+                        icon_flag_2 = True
+                        Name.get_tex_box_size_image_of_text()
+                        Feedback.get_tex_box_size_image_of_text()
+                        name_flag = False
+                        email_flag = True
+                        feedback_flag = False
+                    if (Mouse_x >= 190 and Mouse_x <= 586) and (Mouse_y >= 280 and Mouse_y <= 320):
+                        icon_flag_3 = True
+                        name_flag = False
+                        Name.get_tex_box_size_image_of_text()
+                        Email.get_tex_box_size_image_of_text()
+                        email_flag = False
+                        feedback_flag = True
+                    if (Mouse_x >= 17 and Mouse_x <= 48) and (Mouse_y >= 18 and Mouse_y <= 47):
+                        return
+                    if (Mouse_x >= 609 and Mouse_x <= 634) and (Mouse_y >= 342 and Mouse_y <= 365):
+                        Email_msg = "Hi "+Name.text+",\n\nThank you very much for giving\nyour Feedback on Snake Game.\n\nShare, Support, Subscribe!!!\nYoutube: https://www.youtube.com/channel/UCCEBsUxSW7PyyCYLw8cyhvA\nTwitter:  https://twitter.com/brightgoal_in\nFacebook Page: https://www.facebook.com/brightgoal.in.Education\nFacebook Myself: https://www.facebook.com/harvindar.brightgoal\nInstagram: https://www.instagram.com/brightgoal.in/\nWebsite: https://www.brightgoal.in/\n\nPowered By : Harvindar Singh\nVisit on Store for More Product : https://www.instamojo.com/Brightgoal\n"
+                        pass_flag = False
+                        if icon_flag_1:
+                            if len(Name.text)>=5:
+                                if icon_flag_2:
+                                    if validate_email(Email.text):
+                                        if icon_flag_3:
+                                            if len(Feedback.text)>=10:
+                                                pass_flag = True
+                                            else:
+                                                msg_box(GameWindow, "Please Enter Minimum,10 Charector in Feedback")
+                                        else:
+                                            msg_box(GameWindow,"Please Enter Your,your feedback")
+                                    else:
+                                        msg_box(GameWindow,"Please Enter a Valid,Email Address")
+                                else:
+                                    msg_box(GameWindow,'Please Enter Your,Email Address')
+                            else:
+                                msg_box(GameWindow,"Please Enter Minimum,5 Charector in Name")
+                        else:
+                            msg_box(GameWindow,"Please Enter Your Name")
+                        if Online_status and pass_flag:
+                                if Feedback_sheet.sheet_opend:
+                                    caption('Feedback Sending',604,364)
+                                    pygame.display.update()
+                                    if MAC_ADDRESS==None:
+                                        MAC_ADDRESS = ''
+                                    if COMPUTER_NAME==None:
+                                        COMPUTER_NAME = ''
+                                    if ONLINE_DATE ==None:
+                                        ONLINE_DATE = ''
+                                    if IP_ADDRESS!=None:
+                                        try:
+                                            ip_address = IP_ADDRESS['ip']
+                                            internet_service_provider = IP_ADDRESS['org']
+                                            city = IP_ADDRESS['city']
+                                            country = IP_ADDRESS['country']
+                                            State = IP_ADDRESS['region']
+                                        except:
+                                            ip_address = ""
+                                            internet_service_provider = ""
+                                            city = ""
+                                            country = ""
+                                            State = ""
+                                    row = [Name.text,Email.text,Feedback.text,COMPUTER_NAME,ip_address,MAC_ADDRESS,internet_service_provider,country,State,city,ONLINE_DATE]
+                                    re = Feedback_sheet.insert_row_in_sheet(row,2)
+                                    if re:
+                                        Setting_obj.feedback_sended = True
+                                        Setting_obj.update_setting()
+                                        caption(' Feedback Sended ', 604, 364)
+                                        pygame.display.update()
+                                        mail_send = threading.Thread(target=Gmail.send_mail,args=(Email.text,Email_msg,'Thanks For Your Feedback',))
+                                        mail_send.start()
+                                        msg_box(GameWindow,'Thanks For Your, FeedBack')
+                                        Name.text = ""
+                                        Name.lenth = 0
+                                        Name.get_tex_box_size_image_of_text()
+                                        Email.text = ""
+                                        Email.lenth = 0
+                                        Email.get_tex_box_size_image_of_text()
+                                        Feedback.text = ""
+                                        Feedback.lenth = 0
+                                        Feedback.get_tex_box_size_image_of_text()
+                                        icon_flag_1 = True
+                                        icon_flag_2 = False
+                                        icon_flag_3 = False
+                                        name_flag = True
+                                        email_flag = False
+                                        feedback_flag = False
+                                    else:
+                                        msg_box(GameWindow,'Fail to send Feedback,Please Try Again!,or check,internet connection.')
+                                else:
+                                    msg_box(GameWindow,'Fail to send Feedback,Please Try Again!,or check,internet connection.')
+                        elif pass_flag:
+                            msg_box(GameWindow,"Please Check Your,Internet Connection?")
+
+
+        GameWindow.blit(Send_feedback, [0, 0])
+        if (Mouse_x >= 17 and Mouse_x <= 48) and (Mouse_y >= 18 and Mouse_y <= 47):
+            GameWindow.blit(close_green, [17, 18])
+        else:
+            GameWindow.blit(close_white, [17, 18])
+        if (Mouse_x >= 609 and Mouse_x <= 634) and (Mouse_y >= 342 and Mouse_y <= 365):
+            GameWindow.blit(send_green, [609, 342])
+        else:
+            GameWindow.blit(send_white, [609, 342])
+        if name_flag:
+            Name.input_text(event_list)
+        else:
+            GameWindow.blit(Name.text_img, [192, 144])
+        if email_flag:
+            Email.input_text(event_list)
+        else:
+            GameWindow.blit(Email.text_img, [192, 215])
+        if feedback_flag:
+            Feedback.input_text(event_list)
+        else:
+            GameWindow.blit(Feedback.text_img, [192, 288])
+
+        event_list = []
+        if icon_flag_1 and len(Name.text) >= 5:
+            GameWindow.blit(tick_icon, [599, 146])
+        elif icon_flag_1:
+            GameWindow.blit(warning_icon, [599, 146])
+        if icon_flag_2 and validate_email(Email.text):
+            GameWindow.blit(tick_icon, [599, 215])
+        elif icon_flag_2:
+            GameWindow.blit(warning_icon, [599, 215])
+        if icon_flag_3 and len(Feedback.text) >= 10:
+            GameWindow.blit(tick_icon, [599, 288])
+        elif icon_flag_3:
+            GameWindow.blit(warning_icon, [599, 288])
+        pygame.display.update()
+        clock.tick(32)
