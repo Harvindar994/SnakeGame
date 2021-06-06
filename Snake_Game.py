@@ -1265,3 +1265,275 @@ def email_already_reg(email):
                     else:
                         break
     return False, None, None
+
+
+def check_email_and_password(email, password):
+    global User_account_sheet
+    if User_account_sheet.sheet_opend and Online_status:
+        lenth = User_account_sheet.get_lenth_of_sheet()
+        row = 1
+        if type(lenth) == int:
+            if lenth >= 1:
+                while row <= lenth:
+                    if User_account_sheet.sheet_opend and Online_status:
+                        data = User_account_sheet.get_row_data(row)
+                        if email in data:
+                            if password in data and len(data)==11:
+                                return True, data
+                            else:
+                                break
+                        row += 1
+                    else:
+                        break
+    return False, []
+
+def Reset_password(email = ''):
+    global GameWindow
+    global Mouse_y, Mouse_x
+    global white
+    global light_green
+    global User_account_sheet
+    Red = (254, 55, 14)
+    reset_img = pygame.image.load("Image/Reset_password.png")
+    close_white = Button(GameWindow, "Image/close_white.png", 17, 17)
+    close_green = Button(GameWindow, "Image/close_green.png", 17, 17)
+    view_pass_white = Button(GameWindow, "Image/view_pass_white.png", 568, 236)
+    view_pass_green = Button(GameWindow, "Image/view_pass_green.png", 568, 236)
+    hide_pass_white = Button(GameWindow, "Image/hide_pass_white.png", 568, 236)
+    hide_pass_green = Button(GameWindow, "Image/hide_pass_green.png", 568, 236)
+    Submit_green = Button(GameWindow, "Image/Submit_green.png", 275, 300)
+    Submit_black = Button(GameWindow, "Image/Submit_black.png", 275, 300)
+    Input_Email = False
+    Input_Password = False
+    Input_Otp = False
+    Email = get_input(GameWindow, email, 163, 114, 20, 450, 390, white, white)
+    Email.get_tex_box_size_image_of_text()
+    OTP = get_input(GameWindow, '', 163, 172, 20, 6, 390, white, white)
+    Password = get_input(GameWindow, '', 163, 233, 20, 40, 390, white, white)
+    Email.spcial_car = ['@', '.', '-', '_', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '!', '#', '$', '%', '&',
+                        "'", '*', '+', '/', '=', '?', '^', '`', '{', '|', '}', '~', '"', '(', ')', ',', ':', ';', '<',
+                        '>', '[', '\\', ']']
+    Password.spcial_car = ['@', '.', '-', '_', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '!', '#', '$', '%',
+                           '&',
+                           "'", '*', '+', '/', '=', '?', '^', '`', '{', '|', '}', '~', '"', '(', ')', ',', ':', ';',
+                           '<',
+                           '>', '[', '\\', ']']
+    event_list = []
+    Email_caption = get_input(GameWindow, "Registered Email", 163, 114, 20, 450, 390, white, white)
+    Otp_caption = get_input(GameWindow, 'OTP', 163, 172, 20, 6, 390, white, white)
+    Password_caption = get_input(GameWindow, 'New Password', 163, 233, 20, 40, 390, white, white)
+    Email_caption.get_tex_box_size_image_of_text()
+    Password_caption.get_tex_box_size_image_of_text()
+    Otp_caption.get_tex_box_size_image_of_text()
+    show_password = False
+    show_email_caption = True
+    show_password_caption = True
+    show_otp_caption = True
+    OTP_PASS = -1
+    otp_send_on = ''
+    otp_sended = False
+    row = -1
+    col = -1
+    status = False
+    Verification = False
+    while True:
+        for event in pygame.event.get():
+            Mouse_x, Mouse_y = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                close_game()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return
+            if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+                event_list.append(event)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if close_green.collide(Mouse_x, Mouse_y):
+                        return
+                    if collide(Mouse_x, Mouse_y, 74, 112, 620, 150):
+                        Input_Email = True
+                        Input_Password = False
+                        Input_Otp = False
+                        show_email_caption = False
+                        show_password_caption = True
+                        show_otp_caption = True
+
+                    if collide(Mouse_x, Mouse_y, 74, 170, 620, 212):
+                        Input_Password = False
+                        Input_Email  = False
+                        Input_Otp = True
+                        show_email_caption = True
+                        show_password_caption = True
+                        show_otp_caption = False
+
+                    if collide(Mouse_x, Mouse_y, 74, 231, 620, 273):
+                        Input_Email = False
+                        Input_Password = True
+                        Input_Otp = False
+                        show_email_caption = True
+                        show_password_caption = False
+                        show_otp_caption = True
+
+                    if collide(Mouse_x, Mouse_y, 244, 350, 477, 369):
+                        create_account()
+                    if Submit_green.collide(Mouse_x, Mouse_y):
+                        if validate_email(Email.text):
+                            if str(OTP_PASS) == OTP.text:
+                                if validate_password(Password.text,8):
+                                    Verification = True
+                                else:
+                                    msg_box(GameWindow, 'Please Enter a valid, Password. Use minimum one,Spcial Cherector/ Digit/,Capital letter & one Small letter')
+                            else:
+                                msg_box(GameWindow, 'Please enter valid OTP,or,Resend OTP')
+                        else:
+                            msg_box(GameWindow, 'Enter A Valid,Email address')
+                        if Online_status and Verification and User_account_sheet.sheet_opend:
+                            if status and row != -1 and col != -1:
+                                re = User_account_sheet.update_cell(row, col+1, Password.text)
+                                if re:
+                                    msg_box(GameWindow, 'Your password is,Successfully changed.')
+                                    status = False
+                                    row = -1
+                                    col = -1
+                                    Email.text = ""
+                                    Password.text = ''
+                                    OTP.text = ''
+                                    OTP.lenth = 0
+                                    Email.lenth = 0
+                                    Password.lenth = 0
+                                    otp_sended = False
+                                    otp_send_on = ''
+                                    OTP_PASS = -1
+                                    show_otp_caption = True
+                                    show_email_caption = True
+                                    show_password_caption = True
+                                    return True
+                                else:
+                                    msg_box(GameWindow, 'Fail to reset your,Please try again or,check internet connection')
+                            else:
+                                msg_box(GameWindow, "Please check your,Email address or,Internet Connection")
+                        elif Verification:
+                            msg_box(GameWindow, "Please Check Your,Internet Connection.")
+                    if collide(Mouse_x, Mouse_y, 547, 180, 614, 198) and validate_email(Email.text):
+                        OTP_PASS = random.randint(100000, 999999)
+                        if validate_email(Email.text):
+                            if Online_status and User_account_sheet.sheet_opend:
+                                caption('Please wait', Mouse_x, Mouse_y)
+                                pygame.display.update()
+                                status, row, col = email_already_reg(Email.text)
+                                if status:
+                                    if Gmail.login_status:
+                                        send_mail = threading.Thread(target=send_otp,args=(Email.text, OTP_PASS, '', 1,))
+                                        send_mail.start()
+                                        otp_send_on = Email.text
+                                        otp_sended = True
+                                        msg_box(GameWindow, 'OTP Successfully sended,On your email,please check email.')
+                                else:
+                                    msg_box(GameWindow, 'Email are not,Registered')
+                            else:
+                                msg_box(GameWindow, "Unable to send OTP,please check your,Internet Connection!")
+                        else:
+                            msg_box(GameWindow, "Please enter a valid,Email address")
+
+                    if view_pass_green.collide(Mouse_x, Mouse_y):
+                        if show_password:
+                            show_password = False
+                        else:
+                            show_password = True
+                    if validate_password(Password.text,8):
+                        Password.text_color = white
+                    else:
+                        Password.text_color = Red
+                    if str(OTP_PASS) == OTP.text:
+                        OTP.text_color = white
+                    else:
+                        OTP.text_color = Red
+                    Email.get_tex_box_size_image_of_text()
+                    OTP.get_tex_box_size_image_of_text()
+                    if show_password:
+                        Password.get_tex_box_size_image_of_text()
+                    else:
+                        Password.get_tex_box_size_image_of_password()
+
+        GameWindow.blit(reset_img, [0,0])
+
+        #----------------------------button and icons--------------------
+        if show_email_caption and len(Email.text)==0:
+            Email_caption.put_text()
+        if show_password_caption and len(Password.text)==0:
+            Password_caption.put_text()
+        if show_otp_caption and len(OTP.text)==0:
+            Otp_caption.put_text()
+
+        if show_password:
+            if view_pass_green.collide(Mouse_x, Mouse_y):
+                view_pass_green.put()
+            else:
+                view_pass_white.put()
+        else:
+            if hide_pass_green.collide(Mouse_x, Mouse_y):
+                hide_pass_green.put()
+            else:
+                hide_pass_white.put()
+
+        if close_green.collide(Mouse_x, Mouse_y):
+            close_green.put()
+            caption('close',Mouse_x, Mouse_y)
+        else:
+            close_white.put()
+        if Submit_green.collide(Mouse_x, Mouse_y):
+            Submit_green.put()
+        else:
+            Submit_black.put()
+
+        if collide(Mouse_x, Mouse_y, 244, 350, 477, 369):
+            out_text_file(GameWindow, "Don't have an account? Sing up", 19, 244, 350, light_green, "Font/Gidole-Regular.otf")
+        else:
+            out_text_file(GameWindow, "Don't have an account? Sing up", 19, 244, 350, white, "Font/Gidole-Regular.otf")
+
+        if otp_sended:
+            if collide(Mouse_x, Mouse_y, 530, 180, 614, 198) and validate_email(Email.text):
+                out_text_file(GameWindow, "Resend OTP", 19, 530, 180, light_green, "Font/Gidole-Regular.otf")
+            elif validate_email(Email.text):
+                out_text_file(GameWindow, "Resend OTP", 19, 530, 180, white, "Font/Gidole-Regular.otf")
+        else:
+            if collide(Mouse_x, Mouse_y, 547, 180, 614, 198) and validate_email(Email.text):
+                out_text_file(GameWindow, "Send OTP", 19, 547, 180, light_green,"Font/Gidole-Regular.otf")
+            elif validate_email(Email.text):
+                out_text_file(GameWindow, "Send OTP", 19, 547, 180, white, "Font/Gidole-Regular.otf")
+        #--------------------------getting input from user---------------
+        if str(OTP_PASS) == OTP.text:
+            OTP.text_color = white
+        else:
+            OTP.text_color = Red
+        if validate_password(Password.text,8):
+            Password.text_color = white
+        else:
+            Password.text_color = Red
+        if Input_Email:
+            Email.input_text(event_list)
+        else:
+            Email.put_text()
+        if Input_Otp:
+            OTP.input_numbers(event_list)
+        else:
+            OTP.put_text()
+
+        if Input_Password:
+            if show_password:
+                Password.input_text(event_list)
+            else:
+                Password.input_password(event_list)
+        else:
+            Password.put_text()
+        event_list = []
+
+        if otp_sended:
+            if not otp_send_on==Email.text:
+                OTP.text_color = Red
+                OTP.text = ''
+                OTP.lenth = 0
+                OTP.get_tex_box_size_image_of_text()
+                OTP_PASS = -1
+                otp_sended = False
+        pygame.display.update()
