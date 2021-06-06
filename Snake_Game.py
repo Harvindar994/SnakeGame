@@ -2226,3 +2226,48 @@ def send_feedback():
             GameWindow.blit(warning_icon, [599, 288])
         pygame.display.update()
         clock.tick(32)
+
+
+def setting():
+    global Mouse_x,Mouse_y
+    global Setting_obj
+    global setting_img
+    global Login_img
+    global Online_status
+    global User_account_sheet
+    global GameWindow
+    Setting_obj = Setting_obj.check_setting()
+
+    button_img = pygame.image.load("Image/on_of_button.png")
+    button_img_dark = pygame.image.load("Image/on_of_button_dark.png")
+    more_product = pygame.image.load("Image/Product_store.png")
+    more_product_border = pygame.image.load("Image/Product_store_border.png")
+    facebook = pygame.image.load("Image/facebook.png")
+    twitter = pygame.image.load("Image/twitter.png")
+    brightgoal = pygame.image.load("Image/brightgoal.png")
+    youtube = pygame.image.load("Image/youtube.png")
+    youtube_grw = pygame.image.load("Image/youtube_grw.png")
+    facebook_grw = pygame.image.load("Image/facebook_grw.png")
+    brightgoal_grw = pygame.image.load("Image/brightgoal_grw.png")
+    twitter_grw = pygame.image.load("Image/twitter_grw.png")
+
+    Valume_dif = 0.0038314176245210726
+    width, height, back_white = put_img(GameWindow, "Image/back_white_24.png", 20, 20, False)
+    width, height, back_pink = put_img(GameWindow, "Image/back_pink_24.png", 20, 20, False)
+    scroll_one_page_to_another(Menu_img, setting_img, "left")
+    GameWindow.fill((35, 36, 54))
+    if Setting_obj.online_score:
+        radio_button_x = 527 #1. 483, 2. 527
+    else:
+        radio_button_x = 483
+    radio_button_y = 212
+
+    Sound_button_x = Setting_obj.Sound_button_x   #Starting_point -269, End_point - 483
+    Sound_button_y = 105
+    Music_button_x = Setting_obj.Music_Button_x   #Starting_point -269, End_point - 483
+    Music_button_y = 155
+
+    social_icon_x = 280
+    social_icon_y = 348
+    sound_flag = False
+    music_flag = False
