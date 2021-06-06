@@ -1537,3 +1537,162 @@ def Reset_password(email = ''):
                 OTP_PASS = -1
                 otp_sended = False
         pygame.display.update()
+
+
+def login():
+    global Login_img
+    global GameWindow
+    global Mouse_y, Mouse_x
+    global white
+    global  light_green
+    global Setting_obj
+    global User_account_sheet
+    global Login_img
+    global create_ac_img
+    Setting_obj.check_setting()
+    login_black = Button(GameWindow, "Image/Login_black.png", 285, 296)
+    login_green = Button(GameWindow, "Image/Login_green.png", 285, 296)
+    close_white = Button(GameWindow, "Image/close_white.png", 17, 17)
+    close_green = Button(GameWindow, "Image/close_green.png", 17, 17)
+    view_pass_white = Button(GameWindow, "Image/view_pass_white.png", 568, 217)
+    view_pass_green = Button(GameWindow, "Image/view_pass_green.png", 568, 217)
+    hide_pass_white = Button(GameWindow, "Image/hide_pass_white.png", 568, 217)
+    hide_pass_green = Button(GameWindow, "Image/hide_pass_green.png", 568, 217)
+    Input_Email = False
+    Input_Password = False
+    Email = get_input(GameWindow, '', 163, 155, 20, 450, 390, white, white)
+    Password = get_input(GameWindow, '', 163, 217, 20, 40, 390, white, white)
+    Email.spcial_car = ['@', '.', '-', '_', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '!', '#', '$', '%', '&',
+                        "'", '*', '+', '/', '=', '?', '^', '`', '{', '|', '}', '~', '"', '(', ')', ',', ':', ';', '<',
+                        '>', '[', '\\', ']']
+    Password.spcial_car = ['@', '.', '-', '_', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '!', '#', '$', '%',
+                           '&',
+                           "'", '*', '+', '/', '=', '?', '^', '`', '{', '|', '}', '~', '"', '(', ')', ',', ':', ';',
+                           '<',
+                           '>', '[', '\\', ']']
+    event_list = []
+    Email_caption = get_input(GameWindow, "Registered Email" , 163, 155, 20, 450, 390, white, white)
+    Password_caption = get_input(GameWindow, 'Password', 163, 217, 20, 40, 390, white, white)
+    Email_caption.get_tex_box_size_image_of_text()
+    Password_caption.get_tex_box_size_image_of_text()
+    show_password = False
+    show_email_caption = True
+    show_password_caption = True
+    while True:
+        for event in pygame.event.get():
+            Mouse_x, Mouse_y = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                close_game()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return
+            if event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+                event_list.append(event)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if close_green.collide(Mouse_x, Mouse_y):
+                        return
+                    if collide(Mouse_x, Mouse_y, 74, 144, 620, 191):
+                        show_email_caption = False
+                        show_password_caption = True
+                        Input_Email = True
+                        Input_Password = False
+                    if collide(Mouse_x, Mouse_y, 74, 208, 620, 252):
+                        Input_Password = True
+                        show_password_caption = False
+                        show_email_caption = True
+                        Input_Email  = False
+                    if collide(Mouse_x, Mouse_y, 244, 346, 477, 365):
+                        if Online_status and User_account_sheet.sheet_opend:
+                            scroll_page_up_down(create_ac_img, 'down')
+                            create_account()
+                            scroll_page_up_down(Login_img, 'up')
+                        else:
+                            msg_box(GameWindow, "Please check your,internet connection.")
+                    if collide(Mouse_x, Mouse_y, 286, 257, 619, 278) and validate_email(Email.text):
+                        Reset_password(Email.text)
+                    if login_green.collide(Mouse_x, Mouse_y):
+                        if Online_status and User_account_sheet.sheet_opend:
+                            caption('Please wait',Mouse_x, Mouse_y)
+                            pygame.display.update()
+                            status, data = check_email_and_password(Email.text, Password.text)
+                            if status:
+                                Setting_obj.Name, Setting_obj.Email, Setting_obj.Password, Setting_obj.PC_name, Setting_obj.Mac_Address, Setting_obj.IP_Address, Setting_obj.ISP, Setting_obj.Country, Setting_obj.State, Setting_obj.City, Setting_obj.DOCA = data
+                                Setting_obj.login_status = True
+                                Setting_obj.update_setting()
+                                msg_box(GameWindow,"Successfully logged,in your account.")
+                                return True
+                                show_password = False
+                                show_email_caption = True
+                                show_password_caption = True
+                                Email.text = ''
+                                Email.lenth = 0
+                                Password.text = ''
+                                Password.lenth = 0
+                            else:
+                                msg_box(GameWindow, "Invalid,Email or Password")
+                        else:
+                            msg_box(GameWindow, "Please check your,internet connection.")
+                    if view_pass_green.collide(Mouse_x, Mouse_y):
+                        if show_password:
+                            show_password = False
+                        else:
+                            show_password = True
+                    Email.get_tex_box_size_image_of_text()
+                    if show_password:
+                        Password.get_tex_box_size_image_of_text()
+                    else:
+                        Password.get_tex_box_size_image_of_password()
+
+        GameWindow.blit(Login_img, [0,0])
+
+        #----------------------------button and icons--------------------
+        if show_email_caption and len(Email.text)==0:
+            Email_caption.put_text()
+        if show_password_caption and len(Password.text)==0:
+            Password_caption.put_text()
+
+        if show_password:
+            if view_pass_green.collide(Mouse_x, Mouse_y):
+                view_pass_green.put()
+            else:
+                view_pass_white.put()
+        else:
+            if hide_pass_green.collide(Mouse_x, Mouse_y):
+                hide_pass_green.put()
+            else:
+                hide_pass_white.put()
+
+        if close_green.collide(Mouse_x, Mouse_y):
+            close_green.put()
+            caption('close',Mouse_x, Mouse_y)
+        else:
+            close_white.put()
+
+        if login_green.collide(Mouse_x, Mouse_y):
+            login_green.put()
+        else:
+            login_black.put()
+        if collide(Mouse_x, Mouse_y, 244, 344, 477, 363):
+            out_text_file(GameWindow, "Don't have an account? Sing up", 19, 244, 344, light_green, "Font/Gidole-Regular.otf")
+        else:
+            out_text_file(GameWindow, "Don't have an account? Sing up", 19, 244, 344, white, "Font/Gidole-Regular.otf")
+        if collide(Mouse_x, Mouse_y, 286,257,619,278) and validate_email(Email.text):
+            out_text_file(GameWindow, "Forget password?", 19, 486, 257, light_green,"Font/Gidole-Regular.otf")
+        elif validate_email(Email.text):
+            out_text_file(GameWindow, "Forget password?", 19, 486, 257, white, "Font/Gidole-Regular.otf")
+        #--------------------------getting input from user---------------
+        if Input_Email:
+            Email.input_text(event_list)
+        else:
+            Email.put_text()
+        if Input_Password:
+            if show_password:
+                Password.input_text(event_list)
+            else:
+                Password.input_password(event_list)
+        else:
+            Password.put_text()
+
+        event_list = []
+        pygame.display.update()
