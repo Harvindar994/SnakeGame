@@ -1226,3 +1226,42 @@ def msg_box(surface,msg):
             else:
                 return
         pygame.display.update()
+
+
+def collide(m_x,m_y, x, y, x1, y1):
+    if (m_x > x and m_x < x1) and (m_y > y and m_y < y1):
+        return True
+    else:
+        return False
+def send_otp(Email,otp,Name,type = 0):
+    global OTP_sended
+    global Gmail
+    OTP_sended = False
+    if type == 0:
+        Email_msg = "Hi "+Name+",\n\nYour OTP is : "+str(otp)+"\nDo not share this OTP with another.\n\nShare, Support, Subscribe!!!\nYoutube: https://www.youtube.com/channel/UCCEBsUxSW7PyyCYLw8cyhvA\nTwitter:  https://twitter.com/brightgoal_in\nFacebook Page: https://www.facebook.com/brightgoal.in.Education\nFacebook Myself: https://www.facebook.com/harvindar.brightgoal\nInstagram: https://www.instagram.com/brightgoal.in/\nWebsite: https://www.brightgoal.in/\n\nPowered By : Harvindar Singh\nVisit on Store for More Product : https://www.instamojo.com/Brightgoal\n"
+        re = Gmail.send_mail(Email,Email_msg,'Snake Game OTP verification.')
+    elif type == 1:
+        Email_msg = "Your OTP is : " + str(otp) + "\nDo not share this OTP with another.\n\nShare, Support, Subscribe!!!\nYoutube: https://www.youtube.com/channel/UCCEBsUxSW7PyyCYLw8cyhvA\nTwitter:  https://twitter.com/brightgoal_in\nFacebook Page: https://www.facebook.com/brightgoal.in.Education\nFacebook Myself: https://www.facebook.com/harvindar.brightgoal\nInstagram: https://www.instagram.com/brightgoal.in/\nWebsite: https://www.brightgoal.in/\n\nPowered By : Harvindar Singh\nVisit on Store for More Product : https://www.instamojo.com/Brightgoal\n"
+        re = Gmail.send_mail(Email, Email_msg, 'Snake Game Reset Password.')
+    if re== 'IR_M':
+        OTP_sended = re
+    elif re == True:
+        OTP_sended = True
+
+def email_already_reg(email):
+    global User_account_sheet, Online_status
+    if User_account_sheet.sheet_opend and Online_status:
+        lenth = User_account_sheet.get_lenth_of_sheet()
+        cloumn = 2
+        row = 1
+        if type(lenth)==int:
+            if lenth >= 1:
+                while row<=lenth:
+                    if User_account_sheet.sheet_opend and Online_status:
+                        data = User_account_sheet.get_cell_data(row, cloumn)
+                        if data==email:
+                            return True, row, cloumn
+                        row += 1
+                    else:
+                        break
+    return False, None, None
