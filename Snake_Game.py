@@ -2000,3 +2000,26 @@ def create_account():
         event_list = []
 
         pygame.display.update()
+
+def validate_password(password, minimum_lenth):
+    spcial_car = ['@', '.', '-', '_', '!', '#', '$', '%', '&',
+                  "'", '*', '+', '=', '?', '^', '`', '{', '|', '}', '~', '"', '(', ')', ',', ':', ';', '<',
+                  '>', '[', ']']
+    capital_char = False
+    numbers = False
+    small_char = False
+    spcial_letters = False
+    for e in password:
+        if (e in spcial_car) and not spcial_letters:
+            spcial_letters = True
+        if (e >= 'a' and e <= 'z') and not small_char:
+            small_char = True
+        if (e >= 'A' and e <= 'Z') and not capital_char:
+            capital_char = True
+        if (e >= '0' and e <= '9') and not numbers:
+            numbers = True
+        if capital_char and numbers and small_char and spcial_letters:
+            if len(password) >= minimum_lenth:
+                return True
+            break
+    return False
