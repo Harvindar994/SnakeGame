@@ -2316,3 +2316,21 @@ def setting():
                         Setting_obj.City = ""
                         Setting_obj.DOCA = ""
                     Setting_obj.update_setting()
+
+                if Mouse_x >= Music_button_x and Mouse_x <= Music_button_x + 24 and Mouse_y > Music_button_y and Mouse_y < Music_button_y + 24:
+                    music_flag = True
+                if Mouse_x >= Sound_button_x and Mouse_x <= Sound_button_x + 24 and Mouse_y > Sound_button_y and Mouse_y < Sound_button_y + 24:
+                    sound_flag = True
+                if Mouse_x >= 300 and Mouse_x <= 300 + 120 and Mouse_y > 300 and Mouse_y < 300 + 29:
+                    open_url("https://www.instamojo.com/Brightgoal/")
+                if Mouse_x >= social_icon_x and Mouse_x <= social_icon_x + 24 and Mouse_y >= social_icon_y and Mouse_y <= social_icon_y + 19:
+                    open_url("https://twitter.com/BrightGoal_in")
+                if Mouse_x >= social_icon_x + 44 and Mouse_x <= social_icon_x + 44 + 20 and Mouse_y >= social_icon_y and Mouse_y <= social_icon_y + 20:
+                    open_url("https://www.facebook.com/brightgoal.in.Education")
+                if Mouse_x >= social_icon_x + 88 and Mouse_x <= social_icon_x + 88 + 26 and Mouse_y >= social_icon_y and Mouse_y <= social_icon_y + 19:
+                    open_url("https://www.youtube.com/channel/UCCEBsUxSW7PyyCYLw8cyhvA?")
+                if Mouse_x >= social_icon_x + 132 and Mouse_x <= social_icon_x + 132 + 23 and Mouse_y >= social_icon_y and Mouse_y <= social_icon_y + 23:
+                    open_url("https://www.brightgoal.in/")
+            if event.type == pygame.MOUSEBUTTONUP:
+                music_flag = False
+                sound_flag = False
