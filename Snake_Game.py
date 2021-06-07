@@ -2541,3 +2541,49 @@ def play_game():
     High_Score = record.get_High_score()
     Local_high_score = High_Score
     Playing_Status = True
+    while True:
+        for event in pygame.event.get():
+            Mouse_x, Mouse_y = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                Playing_Status = False
+                close_game()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    scroll_one_page_to_another(play_ground, Menu_img, "left")
+                    Playing_Status = False
+                    return
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_d:
+                    pygame.image.save(GameWindow, 'temp1.png')
+                    def_img = pygame.image.load('temp1.png')
+                    define_pos(def_img,0,0)
+                if event.key == pygame.K_LEFT and update_x!=13:
+                    update_x = -13
+                    temp_head = snake_head_rl
+                    update_y = 0
+                if event.key == pygame.K_RIGHT and update_x!=-13:
+                    update_x = +13
+                    temp_head = snake_head_rl
+                    update_y = 0
+                if event.key == pygame.K_UP and update_y!=13:
+                    update_x = 0
+                    temp_head = snake_head_ud
+                    update_y = -13
+                if event.key == pygame.K_DOWN and update_y!=-13:
+                    update_x = 0
+                    temp_head = snake_head_ud
+                    update_y = +13
+                if event.key == pygame.K_p:
+                    temp = True
+                    while temp:
+                        for event in pygame.event.get():
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_p:
+                                    temp = False
+                        Local_high_score = record.get_High_score()
+
+            if (Mouse_x >= 13 and Mouse_x <= 13+width) and (Mouse_y >= 355 and Mouse_y <= 355+height):
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    scroll_one_page_to_another(play_ground, Menu_img, "left")
+                    Playing_Status = False
+                    return
