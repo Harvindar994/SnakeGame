@@ -2334,3 +2334,85 @@ def setting():
             if event.type == pygame.MOUSEBUTTONUP:
                 music_flag = False
                 sound_flag = False
+
+        GameWindow.blit(setting_img, [0, 0])
+        if Mouse_x >= 483 and Mouse_x <= 550 and Mouse_y >= radio_button_y and Mouse_y <= radio_button_y+24:
+            GameWindow.blit(button_img_dark, [radio_button_x, radio_button_y])
+        else:
+            GameWindow.blit(button_img, [radio_button_x, radio_button_y])
+        if radio_button_x == 483:
+            custom_out_text(GameWindow, "OFF", 507, 549, 218, orange, 13)
+        else:
+            custom_out_text(GameWindow, "ON", 483, 529, 218, orange, 13)
+
+        if music_flag:
+            if Mouse_x -12 >= 268 and Mouse_x -12 <= 530:
+                Music_button_x = Mouse_x - 12
+                Setting_obj.Music_Valume = Valume_dif * (Music_button_x - 269)
+            elif Mouse_x -12 < 268:
+                Music_button_x = 269
+                Setting_obj.Music_Valume = Valume_dif * (Music_button_x - 269)
+            elif Mouse_x -12 > 530:
+                Music_button_x = 530
+                Setting_obj.Music_Valume = 1.0
+            custom_out_text(GameWindow, str(int(0.3831417624521073*(Music_button_x-269))), 565, 590, 159, orange, 18)
+            Setting_obj.Music_Button_x = Music_button_x
+            Setting_obj.update_setting()
+            Setting_obj.check_setting()
+        if sound_flag:
+            if Mouse_x - 12 >= 268 and Mouse_x - 12 <= 530:
+                Sound_button_x = Mouse_x - 12
+                Setting_obj.Sound_valume = Valume_dif * (Sound_button_x - 269)
+            elif Mouse_x - 12 < 268:
+                Sound_button_x = 269
+                Setting_obj.Sound_valume = Valume_dif * (Sound_button_x - 269)
+            elif Mouse_x - 12 > 530:
+                Sound_button_x = 530
+                Setting_obj.Sound_valume = 1.0
+            custom_out_text(GameWindow, str(int(0.3831417624521073 * (Sound_button_x - 269))), 565, 590, 109, orange,18)
+            Setting_obj.Sound_button_x = Sound_button_x
+            Setting_obj.update_setting()
+            Setting_obj.check_setting()
+
+
+
+        if music_flag or Mouse_x >= Music_button_x and Mouse_x <= Music_button_x+24 and Mouse_y > Music_button_y and Mouse_y < Music_button_y+24:
+            GameWindow.blit(button_img_dark, [Music_button_x, Music_button_y])
+        else:
+            GameWindow.blit(button_img, [Music_button_x, Music_button_y])
+
+        pygame.draw.line(GameWindow,orange,[270, 117],[ Sound_button_x, 117],6)
+        pygame.draw.line(GameWindow, orange, [270, 167], [Music_button_x, 167],6)
+
+        if sound_flag or Mouse_x >= Sound_button_x and Mouse_x <= Sound_button_x + 24 and Mouse_y > Sound_button_y and Mouse_y < Sound_button_y + 24:
+            GameWindow.blit(button_img_dark, [Sound_button_x, Sound_button_y])
+        else:
+            GameWindow.blit(button_img, [Sound_button_x, Sound_button_y])
+
+        if Mouse_x >= 300 and Mouse_x <= 300+120 and Mouse_y > 300 and Mouse_y < 300+29:
+            GameWindow.blit(more_product_border, [300, 300])
+        else:
+            GameWindow.blit(more_product, [300, 300])
+
+        if Mouse_x >= social_icon_x and Mouse_x <= social_icon_x+24 and Mouse_y >= social_icon_y and Mouse_y <= social_icon_y+19:
+            GameWindow.blit(twitter_grw, [social_icon_x-1, social_icon_y-1])
+        else:
+            GameWindow.blit(twitter, [social_icon_x, social_icon_y])  #276, 348
+        if Mouse_x >= social_icon_x+44 and Mouse_x <= social_icon_x +44+ 20 and Mouse_y >= social_icon_y and Mouse_y <= social_icon_y + 20:
+            GameWindow.blit(facebook_grw, [social_icon_x+43, social_icon_y-1])
+        else:
+            GameWindow.blit(facebook, [social_icon_x+44, social_icon_y])
+        if Mouse_x >= social_icon_x+88 and Mouse_x <= social_icon_x +88+ 26 and Mouse_y >= social_icon_y and Mouse_y <= social_icon_y + 19:
+            GameWindow.blit(youtube_grw, [social_icon_x+87, social_icon_y+1])
+        else:
+            GameWindow.blit(youtube, [social_icon_x+88, social_icon_y+2])
+        if Mouse_x >= social_icon_x+132 and Mouse_x <= social_icon_x +132+ 23 and Mouse_y >= social_icon_y and Mouse_y <= social_icon_y + 23:
+            GameWindow.blit(brightgoal_grw, [social_icon_x+131, social_icon_y-2])
+        else:
+            GameWindow.blit(brightgoal, [social_icon_x+132, social_icon_y-1])
+
+        if (Mouse_x >= 13 and Mouse_x <= 13 + width) and (Mouse_y >= 355 and Mouse_y <= 355 + height):
+            GameWindow.blit(back_white, [13, 355])
+        else:
+            GameWindow.blit(back_pink, [13, 355])
+        pygame.display.update()
