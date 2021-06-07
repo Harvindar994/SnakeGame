@@ -2271,3 +2271,48 @@ def setting():
     social_icon_y = 348
     sound_flag = False
     music_flag = False
+
+    while True:
+        for event in pygame.event.get():
+            Mouse_x, Mouse_y = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                close_game()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    scroll_one_page_to_another(Menu_img, setting_img, "right")
+                    return
+            if (Mouse_x >= 13 and Mouse_x <= 13 + width) and (Mouse_y >= 355 and Mouse_y <= 355 + height):
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    scroll_one_page_to_another(Menu_img, setting_img, "right")
+                    return
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if Mouse_x >= 483 and Mouse_x <= 550 and Mouse_y >= radio_button_y and Mouse_y <= radio_button_y + 24:
+                    if radio_button_x == 483:
+                        if Online_status:
+                            scroll_page_up_down(Login_img, "down")
+                            login()
+                            scroll_page_up_down(setting_img, "up")
+                            Setting_obj = Setting_obj.check_setting()
+                            if not Setting_obj.login_status:
+                                Setting_obj.online_score = False
+                            else:
+                                radio_button_x = 527
+                                Setting_obj.online_score = True
+                        else:
+                            msg_box(GameWindow, "Please check your,Internet connection")
+                    else:
+                        radio_button_x = 483
+                        Setting_obj.online_score = False
+                        Setting_obj.login_status = False
+                        Setting_obj.Name = ""
+                        Setting_obj.Email = ""
+                        Setting_obj.Password = ""
+                        Setting_obj.PC_name = ""
+                        Setting_obj.Mac_Address = ""
+                        Setting_obj.IP_Address = ""
+                        Setting_obj.ISP = ""
+                        Setting_obj.Country = ""
+                        Setting_obj.State = ""
+                        Setting_obj.City = ""
+                        Setting_obj.DOCA = ""
+                    Setting_obj.update_setting()
