@@ -2587,3 +2587,57 @@ def play_game():
                     scroll_one_page_to_another(play_ground, Menu_img, "left")
                     Playing_Status = False
                     return
+
+        GameWindow.blit(play_ground, [0, 0])
+        if Online_status and Setting_obj.online_score and Setting_obj.login_status:
+            high_score_name = Online_High_score_name
+            high_score_email = Online_High_score_email
+            high_score_online = Online_High_score
+            if high_score_email != '' and high_score_name != '' and high_score_online!=0:
+                high_score_email_old = high_score_email
+                high_score_name_old = high_score_name
+                high_score_old = high_score_online
+                if high_score_email == Setting_obj.Email:
+                    custom_out_text(GameWindow, "You are King of the Game", 192, 540, 10, white, 18, "Font/Gidole-Regular.otf")
+                    if high_score_online < Score:
+                        out_text_file(GameWindow, "Score 0" + str(Score) + "/" + str(Score), 18, 22, 8,white, "Font/DroidSansMono.ttf")
+                    else:
+                        out_text_file(GameWindow, "Score 0" + str(Score) + "/" + str(high_score_online), 18, 22, 8,white, "Font/DroidSansMono.ttf")
+                else:
+                    if high_score_online < Score:
+                        custom_out_text(GameWindow, "You are King of the Game", 192, 540, 10, white, 18,"Font/Gidole-Regular.otf")
+                        out_text_file(GameWindow, "Score 0" + str(Score) + "/" + str(Score), 18, 22, 8, white,
+                                      "Font/DroidSansMono.ttf")
+                    else:
+                        custom_out_text(GameWindow, "You v/s "+high_score_name, 192, 540, 10, white, 18, "Font/Gidole-Regular.otf")
+                        out_text_file(GameWindow, "Score 0" + str(Score) + "/" + str(high_score_online), 18, 22, 8, white,"Font/DroidSansMono.ttf")
+            elif high_score_email_old != '' and high_score_name_old != '' and high_score_old != 0:
+                if high_score_email_old == Setting_obj.Email:
+                    custom_out_text(GameWindow, "You are King of the Game", 192, 540, 10, white, 18,
+                                    "Font/Gidole-Regular.otf")
+                    if high_score_old < Score:
+                        out_text_file(GameWindow, "Score 0" + str(Score) + "/" + str(Score), 18, 22, 8, white,
+                                      "Font/DroidSansMono.ttf")
+                    else:
+                        out_text_file(GameWindow, "Score 0" + str(Score) + "/" + str(high_score_old), 18, 22, 8,
+                                      white, "Font/DroidSansMono.ttf")
+                else:
+                    if high_score_old < Score:
+                        custom_out_text(GameWindow, "You are King of the Game", 192, 540, 10, white, 18,
+                                        "Font/Gidole-Regular.otf")
+                        out_text_file(GameWindow, "Score 0" + str(Score) + "/" + str(Score), 18, 22, 8, white,
+                                      "Font/DroidSansMono.ttf")
+                    else:
+                        custom_out_text(GameWindow, "You v/s " + high_score_name_old, 192, 540, 10, white, 18,
+                                        "Font/Gidole-Regular.otf")
+                        out_text_file(GameWindow, "Score 0" + str(Score) + "/" + str(high_score_old), 18, 22, 8,
+                                      white, "Font/DroidSansMono.ttf")
+            else:
+                out_text_file(GameWindow, "Score 0" + str(Score) + "/" + str(High_Score), 18, 22, 8, white,"Font/DroidSansMono.ttf")
+        else:
+            out_text_file(GameWindow, "Score 0" + str(Score) + "/" + str(High_Score), 18, 22, 8, white,"Font/DroidSansMono.ttf")
+        out_text_file(GameWindow, "Life 0"+str(Life), 18, 590, 8, white, "Font/DroidSansMono.ttf")
+        if (Mouse_x >= 13 and Mouse_x <= 13 + width) and (Mouse_y >= 355 and Mouse_y <= 355 + height):
+            GameWindow.blit(back_white, [13, 355])
+        else:
+            GameWindow.blit(back_pink, [13, 355])
