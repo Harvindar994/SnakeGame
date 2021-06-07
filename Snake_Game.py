@@ -2433,3 +2433,30 @@ def about():
     Send_feedback_green = Button(GameWindow, "Image/Send_feedback_green.PNG", 25, 323)
     white_close = Button(GameWindow, "Image/close_white.png", 19,17)
     green_close = Button(GameWindow, "Image/close_green.png",19,17)
+
+    while True:
+        for event in pygame.event.get():
+            Mouse_x, Mouse_y = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                close_game()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    scroll_one_page_to_another(Menu_img, About_Img,'right')
+                    return
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if green_close.collide(Mouse_x, Mouse_y):
+                        scroll_one_page_to_another(Menu_img, About_Img, 'right')
+                        return
+                    if Check_update_green.collide(Mouse_x, Mouse_y):
+                        open_url('https://www.instamojo.com/Brightgoal/')
+                    if Send_feedback_green.collide(Mouse_x,Mouse_y):
+                        if Online_status:
+                            if Feedback_sheet.sheet_opend:
+                                scroll_page_up_down(Send_feedback,"down")
+                                send_feedback()
+                                scroll_page_up_down(About_Img, "up")
+                            else:
+                                msg_box(GameWindow,"Please check your,Internet Connection!")
+                        else:
+                            msg_box(GameWindow, "Please check your,Internet Connection!")
