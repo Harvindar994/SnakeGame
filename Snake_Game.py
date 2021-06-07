@@ -2641,3 +2641,182 @@ def play_game():
             GameWindow.blit(back_white, [13, 355])
         else:
             GameWindow.blit(back_pink, [13, 355])
+
+        snake_y += update_y
+        snake_x += update_x
+        if ([snake_x, snake_y] in snake_pos) or (not ((snake_y >= 37 and snake_y <= 375) and (snake_x >= 3 and snake_x <= 679))):
+            play_sound(Crash_sound,0,500)
+            if Life == 0:
+                stop_sound(Crash_sound)
+                stop_sound(Eat_Food_sound)
+                stop_sound(Show_extra_food_sound)
+                scroll_page_up_down(game_over_img, "down")
+                Playing_Status = False
+                re = game_over(Score, High_Score)
+                if re != 1:
+                    scroll_one_page_to_another(game_over_img, Menu_img, "left")
+                    Playing_Status = False
+                    return
+                Snake_speed = 7
+                Playing_Status = True
+                scroll_page_up_down(play_ground, "up")
+                ex_food_x = 0
+                extra_food_value = 10
+                ex_food_y = 0
+                ex_food_count = 0
+                ex_low_food_count = 0
+                ex_low_food_y = -20
+                ex_low_food_x = -20
+                ex_low_food_show = False
+                ex_low_pro_bar = False
+                ex_low_food_value = 10
+                Game_reset = 0
+                flag = False
+                ex_food_flag = False
+                temp_head = snake_head_rl
+                snake_lenth = 3
+                Life = 3
+                Score = 0
+                snake_pos = [[94, 102], [107, 102], [120, 102]]
+                food_x, food_y = get_food_pos(snake_pos, 0, 0)
+                pro_bar = 0
+                snake_x = 120
+                snake_y = 102
+                update_x = 13
+                update_y = 0
+                continue
+            else:
+                Game_reset = len(snake_pos)-3
+                snake_lenth = 3
+                snake_pos = [[94, 102], [107, 102], [120, 102]]
+                Life -= 1
+                snake_x = 120
+                snake_y = 102
+                update_x = 13
+                update_y = 0
+                continue
+
+        temp = snake_lenth
+        while temp!=0:
+            temp -= 1
+            if temp+1 == snake_lenth:
+                GameWindow.blit(temp_head, snake_pos[temp])
+            else:
+                GameWindow.blit(snake_body, snake_pos[temp])
+
+        snake_pos.append([snake_x, snake_y])
+
+        if Game_reset!=0:
+            snake_lenth += 1
+            if snake_y == food_y and snake_x == food_x:
+                play_sound(Eat_Food_sound)
+                Score += 1
+                ex_food_count += 1
+                ex_low_food_count +=1
+                food_x, food_y = get_food_pos(snake_pos, food_x, food_y)
+                High_Score = record.update_score(Score)
+            elif (ex_food_y == snake_y and ex_food_x == snake_x) or (ex_food_y + 4 == snake_y and ex_food_x == snake_x) or (ex_food_y == snake_y and ex_food_x + 4 == snake_x) or (ex_food_y + 4 == snake_y + 4 and ex_food_x + 4 == snake_x):
+                play_sound(Eat_Food_sound)
+                Score += int(extra_food_value)
+                if Snake_speed<12:
+                    Snake_speed  += 1
+                ex_food_x = 0
+                ex_food_y = 0
+                High_Score = record.update_score(Score)
+                pro_bar = 0
+                ex_food_flag = False
+                flag = False
+            elif (ex_low_food_y == snake_y and ex_low_food_x == snake_x) or (ex_low_food_y + 4 == snake_y and ex_low_food_x == snake_x) or (ex_low_food_y == snake_y and ex_low_food_x + 4 == snake_x) or (ex_low_food_y + 4 == snake_y + 4 and ex_low_food_x + 4 == snake_x):
+                play_sound(Eat_Food_sound)
+                ex_low_food_y = -20
+                ex_low_food_x = -20
+                Score += int(ex_low_food_value)
+                if Snake_speed > 6:
+                    Snake_speed -= 1
+                High_Score = record.update_score(Score)
+                ex_low_pro_bar = 0
+                ex_low_food_show = False
+            Game_reset -= 1
+        else:
+            if snake_y == food_y and snake_x == food_x:
+                play_sound(Eat_Food_sound)
+                snake_lenth += 1
+                Score+=1
+                ex_food_count += 1
+                ex_low_food_count += 1
+                food_x, food_y = get_food_pos(snake_pos, food_x, food_y)
+                High_Score = record.update_score(Score)
+            elif (ex_food_y == snake_y and ex_food_x == snake_x) or (ex_food_y+4 == snake_y and ex_food_x == snake_x) or (ex_food_y == snake_y and ex_food_x+4 == snake_x) or (ex_food_y+4 == snake_y+4 and ex_food_x+4 == snake_x):
+                play_sound(Eat_Food_sound)
+                snake_lenth += 1
+                ex_food_x = 0
+                ex_food_y = 0
+                Score += int(extra_food_value)
+                if Snake_speed<12:
+                    Snake_speed  += 1
+                High_Score = record.update_score(Score)
+                pro_bar = 0
+                ex_food_flag = False
+                flag = False
+            elif (ex_low_food_y == snake_y and ex_low_food_x == snake_x) or (ex_low_food_y + 4 == snake_y and ex_low_food_x == snake_x) or (ex_low_food_y == snake_y and ex_low_food_x + 4 == snake_x) or (ex_low_food_y + 4 == snake_y + 4 and ex_low_food_x + 4 == snake_x):
+                play_sound(Eat_Food_sound)
+                snake_lenth += 1
+                ex_low_food_y = -20
+                ex_low_food_x = -20
+                Score += int(ex_low_food_value)
+                if Snake_speed > 6:
+                    Snake_speed -= 1
+                High_Score = record.update_score(Score)
+                ex_low_pro_bar = 0
+                ex_low_food_show = False
+            else:
+                snake_pos = snake_pos[1::]
+        Local_high_score = High_Score
+        if ex_low_food_count == 25:
+            ex_low_food_show = True
+            play_sound(Show_extra_food_sound)
+            ex_low_food_x, ex_low_food_y = get_extra_food_pos(snake_pos, food_x, food_y)
+            ex_low_food_count = 0
+            ex_low_pro_bar = 692
+            ex_low_food_value = 10
+
+        if ex_low_pro_bar > 0:
+            pygame.draw.line(GameWindow, light_green,[0, 35], [ex_low_pro_bar, 35], 3)
+            ex_low_pro_bar -= 18
+            ex_low_food_value -= 0.2601456816
+        else:
+            ex_low_food_show = False
+            ex_low_food_y  = -20
+            ex_low_food_x = -20
+
+        if ex_low_food_show:
+            GameWindow.blit(ex_low_food_img, [ex_low_food_x, ex_low_food_y])
+
+        if ex_food_count == 10:
+            ex_food_flag = True
+            play_sound(Show_extra_food_sound)
+            ex_food_x, ex_food_y = get_extra_food_pos(snake_pos, food_x, food_y)
+            ex_food_count = 0
+            extra_food_value = 10
+            pro_bar = 692
+        if pro_bar > 0:
+            pygame.draw.line(GameWindow, Light_Pink,[0, 35], [pro_bar, 35], 3)
+            pro_bar -= 18
+            extra_food_value -= 0.2601456816
+        else:
+            ex_food_flag = False
+            flag = False
+            ex_food_x = 0
+            ex_food_y = 0
+
+        if ex_food_flag:
+            if flag:
+                GameWindow.blit(ex_food_pink, [ex_food_x, ex_food_y])
+                flag = False
+            else:
+                GameWindow.blit(ex_food_blue, [ex_food_x, ex_food_y])
+                flag = True
+
+        GameWindow.blit(snake_food, [food_x, food_y])
+        pygame.display.update()
+        clock.tick(Snake_speed)
