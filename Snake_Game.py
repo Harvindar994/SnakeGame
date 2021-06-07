@@ -2492,3 +2492,13 @@ def play_game():
     global Online_High_score
     global Online_High_score_name
     global Online_score_sheet
+    Setting_obj.check_setting()
+    Snake_speed = 7
+    online_score = online_score_record()
+    record = score_record()
+    snake_head_rl = pygame.image.load("Image/head_rl.png")
+    snake_head_ud = pygame.image.load("Image/head_ud.png")
+    snake_food = pygame.image.load("Image/food_apple.png")
+    ex_food_pink = pygame.image.load("Image/ex_food_blue.png")
+    ex_food_blue = pygame.image.load("Image/ex_food_pink.png")
+    ex_low_food_img = pygame.image.load("Image/extra_low_food.png")
