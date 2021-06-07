@@ -2523,3 +2523,21 @@ def play_game():
     snake_y = 102
     update_x = 13
     update_y = 0
+    scroll_one_page_to_another(play_ground, Menu_img, "right")
+    GameWindow.fill(light_blue)
+    GameWindow.blit(play_ground, [0, 0])
+    width, height, back_white = put_img(GameWindow, "Image/back_white_24.png", 13, 360, False)
+    width, height, back_pink = put_img(GameWindow, "Image/back_pink_24.png", 13, 360, )
+    pygame.display.update()
+    high_score_name_old = ""
+    high_score_email_old = ""
+    high_score_old = 0
+    ex_low_food_show = False
+    ex_low_food_x = -20
+    ex_low_food_y = -20
+    ex_low_food_count = 0
+    ex_low_pro_bar = 0
+    ex_low_food_value = 0
+    High_Score = record.get_High_score()
+    Local_high_score = High_Score
+    Playing_Status = True
