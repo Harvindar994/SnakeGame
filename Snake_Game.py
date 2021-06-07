@@ -2416,3 +2416,20 @@ def setting():
         else:
             GameWindow.blit(back_pink, [13, 355])
         pygame.display.update()
+
+def about():
+    global Mouse_y, Mouse_x
+    global GameWindow
+    global About_Img
+    global Online_status
+    global Feedback_sheet
+    global Send_feedback
+    global Game_Version
+    global white
+    scroll_one_page_to_another(Menu_img,About_Img,'left')
+    Check_update_black = Button(GameWindow,'Image/Project_store_black.png',189,323)
+    Send_feedback_black = Button(GameWindow, "Image/Send_feedback_black.PNG", 25, 323)
+    Check_update_green = Button(GameWindow, 'Image/Project_store_green.png', 189, 323)
+    Send_feedback_green = Button(GameWindow, "Image/Send_feedback_green.PNG", 25, 323)
+    white_close = Button(GameWindow, "Image/close_white.png", 19,17)
+    green_close = Button(GameWindow, "Image/close_green.png",19,17)
