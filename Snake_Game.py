@@ -2460,3 +2460,20 @@ def about():
                                 msg_box(GameWindow,"Please check your,Internet Connection!")
                         else:
                             msg_box(GameWindow, "Please check your,Internet Connection!")
+
+        GameWindow.blit(About_Img, [0,0])
+        out_text_file(GameWindow,"Version "+Game_Version, 18, 28, 283, white,"Font/Gidole-Regular.otf")
+        if Send_feedback_green.collide(Mouse_x, Mouse_y):
+            Send_feedback_green.put()
+        else:
+            Send_feedback_black.put()
+        if Check_update_green.collide(Mouse_x, Mouse_y):
+            Check_update_green.put()
+        else:
+            Check_update_black.put()
+        if green_close.collide(Mouse_x, Mouse_y):
+            caption('Close',Mouse_x,Mouse_y)
+            green_close.put()
+        else:
+            white_close.put()
+        pygame.display.update()
