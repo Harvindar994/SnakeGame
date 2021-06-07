@@ -2477,3 +2477,18 @@ def about():
         else:
             white_close.put()
         pygame.display.update()
+
+
+def play_game():
+    global Mouse_x, Mouse_y
+    global GameWindow
+    global play_ground
+    global Online_status
+    global white
+    global Setting_obj
+    global Playing_Status
+    global Local_high_score
+    global Online_High_score_email
+    global Online_High_score
+    global Online_High_score_name
+    global Online_score_sheet
