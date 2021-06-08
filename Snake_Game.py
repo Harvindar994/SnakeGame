@@ -3050,3 +3050,19 @@ def out_text_file(surface, text, size, x, y, color, font_file, return_img = Fals
     if return_img:
         return text_img
     surface.blit(text_img, [x, y])
+
+def fadeout(surface, page, x, y):
+    pygame.image.save(surface, 'temp3.png')
+    temp_image = pygame.image.load('temp3.png')
+    temp_image = temp_image.convert()
+    temp_image2 = page.convert()
+    i = 255
+    i2 = 0
+    while i > 0:
+        temp_image.set_alpha(i)
+        temp_image2.set_alpha(i2)
+        surface.blit(temp_image2, [x, y])
+        surface.blit(temp_image, [x, y])
+        i -= 5
+        i2 += 5
+        pygame.display.update()
