@@ -3119,3 +3119,9 @@ def welcome():
         line2_x += line2_move
         pygame.display.flip()
         pygame.time.Clock().tick(35)
+
+#-------------------------------------Start Threading For Online work Handler-----------------
+Online_handler_thread = threading.Thread(target = online_work_handler)
+Online_handler_thread.start()
+welcome()
+fadeout(GameWindow, Menu_img, 0, 0)
