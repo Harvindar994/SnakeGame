@@ -3028,3 +3028,9 @@ def scroll_page_up_down(page, direction):
             GameWindow.blit(page, [0, y])
             pygame.display.update()
             y += 12
+
+def close_game():
+    global controling_thread
+    controling_thread = False
+    pygame.quit()
+    sys.exit()
