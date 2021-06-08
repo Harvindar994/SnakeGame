@@ -2966,3 +2966,27 @@ def game_over(score, game_high_score=0):
                         Feedback_sending = False
                         scroll_page_up_down(game_over_img,'up')
         clock.tick(100)
+
+def get_extra_food_pos(snake_pos, old_x, old_y):
+    while True:
+        x = (random.randint(2, 51)*13)+3
+        while True:
+            y = (random.randint(2, 25)*13)+37
+            if x < 42 and y > 336:
+                continue
+            break
+        if [x, y] in snake_pos or (y == old_y and x == old_x):
+            continue
+        return x, y
+
+def get_food_pos(snake_pos, old_x, old_y):
+    while True:
+        x = (random.randint(1, 52)*13)+3
+        while True:
+            y = (random.randint(1, 26)*13)+37
+            if x < 42 and y > 336:
+                continue
+            break
+        if [x, y] in snake_pos or (y == old_y and x == old_x):
+            continue
+        return x, y
