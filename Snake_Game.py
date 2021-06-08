@@ -2990,3 +2990,24 @@ def get_food_pos(snake_pos, old_x, old_y):
         if [x, y] in snake_pos or (y == old_y and x == old_x):
             continue
         return x, y
+
+def scroll_one_page_to_another(page_1, page_2,direction):
+    global GameWindow
+    play_sound(Slide_sound)
+    width = page_1.get_width()
+    if direction=="left":
+        x1=width
+        while x1>=0:
+            #GameWindow.blit(page_1, [x, 0])
+            GameWindow.blit(page_2, [x1,0])
+            #x-=26
+            x1-=20
+            pygame.display.update()
+    if direction=="right":
+        x1 = -width
+        while x1 <= 0:
+            GameWindow.blit(page_1, [x1, 0])
+            #GameWindow.blit(page_2, [x, 0])
+            #x += 1
+            x1 += 20
+            pygame.display.update()
