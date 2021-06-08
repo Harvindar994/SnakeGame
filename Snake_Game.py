@@ -2899,3 +2899,70 @@ def game_over(score, game_high_score=0):
                     return 0
                 if replay_green.collide(Mouse_x, Mouse_y):
                     return 1
+
+
+        GameWindow.blit(game_over_img, [0, 0])
+        GameWindow.blit(star_blank, [star_x, star_y])
+        GameWindow.blit(star_blank, [star_x+diffrence, star_y])
+        GameWindow.blit(star_blank, [star_x+(diffrence*2), star_y])
+        GameWindow.blit(star_blank, [star_x+(diffrence*3), star_y])
+        GameWindow.blit(star_blank, [star_x+(diffrence*4), star_y])
+
+        if star_value>=1 and temp >= 1:
+            GameWindow.blit(star, [star_x, star_y])
+        if star_value >= 2 and temp >= 2:
+            GameWindow.blit(star, [star_x + diffrence, star_y])
+        if star_value >= 3 and temp >= 3:
+            GameWindow.blit(star, [star_x + (diffrence * 2), star_y])
+        if star_value >= 4 and temp >= 4:
+            GameWindow.blit(star, [star_x + (diffrence * 3), star_y])
+        if star_value >= 5 and temp >= 5:
+            GameWindow.blit(star, [star_x + (diffrence * 4), star_y])
+        if temp <= 5:
+            temp+=0.1
+
+        if home_green.collide(Mouse_x, Mouse_y):
+            home_green.put()
+            caption("Back To Home", Mouse_x, Mouse_y)
+        else:
+            home_white.put()
+
+        if replay_green.collide(Mouse_x, Mouse_y):
+            replay_green.put()
+            caption("Replay", Mouse_x, Mouse_y)
+        else:
+            replay_white.put()
+
+        if Show_Online_score:
+            if you_are_king:
+                GameWindow.blit(king_img, [384, 17])
+                custom_out_text(GameWindow, "Your Highest Score", 462, 611, 289, white, 20, "Font/Gidole-Regular.otf")
+                custom_out_text(GameWindow, High_score_name, 230, 578, 62, white, 18, "Font/Gidole-Regular.otf")
+                custom_out_text(GameWindow, "You are the king of this game because you made the", 230, 578, 79, white, 18,"Font/Gidole-Regular.otf")
+                custom_out_text(GameWindow, "highest score in the community of this game.", 230, 578, 96, white, 18,"Font/Gidole-Regular.otf")
+            else:
+                custom_out_text(GameWindow, High_score_name, 462, 611, 289, white, 20, "Font/Gidole-Regular.otf")
+                custom_out_text(GameWindow, "You v/s "+High_score_name, 230, 578, 62, white, 22, "Font/Gidole-Regular.otf")
+            custom_out_text(GameWindow, 'Your Score', 209, 340, 289, white, 20, "Font/Gidole-Regular.otf")
+            custom_out_text(GameWindow, str(temp_2), 209, 340, 320, light_green, 22)
+            custom_out_text(GameWindow, str(high_temp), 462, 611, 320, light_green, 22)
+        else:
+            custom_out_text(GameWindow, str(temp_2), 209, 340, 289, light_green, 22)
+            custom_out_text(GameWindow, str(high_temp), 462, 611, 289, light_green, 22)
+        pygame.display.update()
+        if temp_2<score:
+            temp_2+=5
+        else:
+            temp_2 = score
+        if high_temp<High_score:
+            high_temp += 5
+        else:
+            high_temp = High_score
+            if Online_status and Feedback_sending:
+                if Feedback_sheet.sheet_opend:
+                    if not Setting_obj.feedback_sended:
+                        scroll_page_up_down(Send_feedback,'down')
+                        send_feedback()
+                        Feedback_sending = False
+                        scroll_page_up_down(game_over_img,'up')
+        clock.tick(100)
