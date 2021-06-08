@@ -2885,3 +2885,17 @@ def game_over(score, game_high_score=0):
     GameWindow.blit(star_blank, [star_x + (diffrence * 4), star_y])
     pygame.display.update()
     clock.tick(1)
+
+    while True:
+        Mouse_x, Mouse_y = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                close_game()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return 0
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if home_green.collide(Mouse_x, Mouse_y):
+                    return 0
+                if replay_green.collide(Mouse_x, Mouse_y):
+                    return 1
