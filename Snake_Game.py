@@ -3011,3 +3011,20 @@ def scroll_one_page_to_another(page_1, page_2,direction):
             #x += 1
             x1 += 20
             pygame.display.update()
+
+def scroll_page_up_down(page, direction):
+    global GameWindow
+    play_sound(Slide_sound)
+    height = page.get_height()
+    if direction == "up":
+        y = height
+        while y > 0:
+            GameWindow.blit(page, [0, y])
+            y -= 12
+            pygame.display.update()
+    if direction == "down":
+        y = -height
+        while y <= 0:
+            GameWindow.blit(page, [0, y])
+            pygame.display.update()
+            y += 12
