@@ -3034,3 +3034,19 @@ def close_game():
     controling_thread = False
     pygame.quit()
     sys.exit()
+
+def out_text(text, size, x, y, color, font_style=None, bk_color=None):
+    global GameWindow
+    font = pygame.font.SysFont(font_style, size)
+    text_img = font.render(text, True, color, bk_color)
+    GameWindow.blit(text_img, [x, y])
+
+def out_text_file(surface, text, size, x, y, color, font_file, return_img = False, bk_color=None):
+    try:
+        font = pygame.font.Font(font_file, size)
+    except OSError:
+        font = pygame.font.SysFont(None, size)
+    text_img = font.render(text, True, color, bk_color)
+    if return_img:
+        return text_img
+    surface.blit(text_img, [x, y])
