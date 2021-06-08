@@ -3125,3 +3125,12 @@ Online_handler_thread = threading.Thread(target = online_work_handler)
 Online_handler_thread.start()
 welcome()
 fadeout(GameWindow, Menu_img, 0, 0)
+
+#-------------------------Playing Background Music with Ifanite Loop-------------------
+play_sound(Background_sound, -1)
+photo_center_position_x = 161
+photo_center_position_y = 210
+line1_x = -630
+line2_x = 492
+line1_move = +5
+line2_move = -5
