@@ -2820,3 +2820,68 @@ def play_game():
         GameWindow.blit(snake_food, [food_x, food_y])
         pygame.display.update()
         clock.tick(Snake_speed)
+
+
+def game_over(score, game_high_score=0):
+    global Online_status
+    global Feedback_sheet
+    global Setting_obj
+    global Feedback_sending
+    global light_green
+    global white
+    global GameWindow
+    Show_Online_score = False
+    you_are_king = False
+    Setting_obj = Setting_obj.check_setting()
+    if Online_status:
+        if Setting_obj.login_status and Setting_obj.online_score:
+            Show_Online_score = True
+            Online_score = online_score_record()
+            High_score = Online_score.get_High_score()
+            High_score_email = Online_score.get_High_score_email()
+            if High_score_email == Setting_obj.Email:
+                you_are_king = True
+            High_score_name = Online_score.get_High_score_name()
+            if score > High_score:
+                Online_score.update_score(Setting_obj.Name, score, Setting_obj.Email)
+                you_are_king = True
+                High_score_email = Setting_obj.Email
+                High_score_name = Setting_obj.Name
+                High_score = score
+        else:
+            Show_Online_score = False
+            you_are_king = False
+            Record  = score_record()
+            High_score = game_high_score
+    else:
+        Show_Online_score = False
+        you_are_king = False
+        Record = score_record()
+        High_score = game_high_score
+
+    if score !=0 and High_score!=0:
+        temp = High_score/5
+        star_value = score/temp
+    else:
+        star_value = 0
+    temp = 0
+    temp_2 = 0
+    high_temp = 0
+    star_x = 344
+    star_y = 166
+    diffrence = 26
+    king_img = pygame.image.load("Image/king.png")
+    home_green = Button(GameWindow,"Image/home_green.png", 133, 20)
+    home_white = Button(GameWindow, "Image/home_white.png", 133, 20)
+    replay_green = Button(GameWindow, "Image/replay_green.png", 178, 20)
+    replay_white = Button(GameWindow, "Image/replay_white.png", 178, 20)
+    star = pygame.image.load("Image/star.png")
+    star_blank = pygame.image.load("Image/star_blank.png")
+    GameWindow.blit(game_over_img, [0, 0])
+    GameWindow.blit(star_blank, [star_x, star_y])
+    GameWindow.blit(star_blank, [star_x + diffrence, star_y])
+    GameWindow.blit(star_blank, [star_x + (diffrence * 2), star_y])
+    GameWindow.blit(star_blank, [star_x + (diffrence * 3), star_y])
+    GameWindow.blit(star_blank, [star_x + (diffrence * 4), star_y])
+    pygame.display.update()
+    clock.tick(1)
