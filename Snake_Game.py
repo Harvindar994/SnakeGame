@@ -3066,3 +3066,56 @@ def fadeout(surface, page, x, y):
         i -= 5
         i2 += 5
         pygame.display.update()
+
+def welcome():
+    line1_x = -630
+    line2_x = 492
+    line1_move = +5
+    line2_move = -5
+    welcome_bk = pygame.image.load('Image/welcome_bk.png')
+    my_img = pygame.image.load("Image/harvindar_singh.png")
+    website_logo = pygame.image.load('Image/website_logo.png')
+    line = pygame.image.load("Image/line.png")
+    persentage_x_diff = 6.09
+    persentage = -1
+    persentage_x = 44
+    flag = False
+    count = 0
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                close_game()
+
+        GameWindow.blit(welcome_bk, [0, 0])
+        GameWindow.blit(line, [line1_x, 0])
+        GameWindow.blit(line, [line2_x, 0])
+        GameWindow.blit(my_img, [212, 125])
+        GameWindow.blit(website_logo, [363, 125])
+        pygame.draw.line(GameWindow, light_green, [44, 304], [659, 304], 3)
+        pygame.draw.line(GameWindow, white, [44, 304], [persentage_x, 304], 3)
+        out_text_file(GameWindow,'Snake Game', 55, 215, 30, white, "Font/adventpro-bold.ttf")
+        out_text_file(GameWindow, 'brightgoal.in', 22, 375, 87, white, "Font/Gidole-Regular.otf")
+        out_text_file(GameWindow, 'loading...', 22, 315, 270, white, "Font/Gidole-Regular.otf")
+        custom_out_text(GameWindow, str(int(persentage))+'%',320, 384, 319, white, 22, "Font/Gidole-Regular.otf")
+        if persentage_x < 653:
+            persentage += 1
+            persentage_x += 6.09
+        else:
+            flag = True
+        if flag:
+            count += 1
+            if count > 50:
+                pygame.display.update()
+                return
+        if line1_x < -630:
+            line1_move = +5
+        if line1_x > 492:
+            line1_move = -5
+        if line2_x < -630:
+            line2_move = +5
+        if line2_x > 492:
+            line2_move = -5
+        line1_x += line1_move
+        line2_x += line2_move
+        pygame.display.flip()
+        pygame.time.Clock().tick(35)
