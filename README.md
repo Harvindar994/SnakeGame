@@ -2,8 +2,5 @@
  Snake Game  in python
 <h3>Game Preview</h3>
 <p>Note: Game preview is lagging little bit because of screen recording software</p>
-<body>
-<video width="300" controls>
-  <source src="https://raw.githubusercontent.com/Harvindar994/SnakeGame/main/Game%20Preview/Rec198.mp4" type="video/mp4">
-</video>
-</body>
+
+https://user-images.githubusercontent.com/41161615/121352025-07c44c00-c94a-11eb-9be2-a925dcc4671f.mp4
