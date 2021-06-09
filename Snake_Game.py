@@ -3134,3 +3134,32 @@ line1_x = -630
 line2_x = 492
 line1_move = +5
 line2_move = -5
+
+while not Close_game:
+    redios = 85
+    for event in pygame.event.get():
+        Mouse_x, Mouse_y = pygame.mouse.get_pos()
+        if event.type == pygame.QUIT:
+            Close_game = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_DOWN:
+                if Start_y < 272:
+                    Start_y += Diffrence
+                else:
+                    Start_y = 38
+            if event.key == pygame.K_UP:
+                if Start_y > 38:
+                    Start_y -= Diffrence
+                else:
+                    Start_y = 272
+            if event.key == pygame.K_RETURN:
+                if Start_y == 272:
+                    about()
+                    GameWindow.fill((35, 36, 54))
+                if Start_y == 38:
+                    play_game()
+                    GameWindow.fill((35, 36, 54))
+                    GameWindow.fill(light_blue)
+                if Start_y == 155:
+                    setting()
+                    GameWindow.fill((35, 36, 54))
