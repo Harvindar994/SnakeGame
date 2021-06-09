@@ -3163,3 +3163,41 @@ while not Close_game:
                 if Start_y == 155:
                     setting()
                     GameWindow.fill((35, 36, 54))
+
+        if (Mouse_x >= 346 and Mouse_x <= 616) and (Mouse_y >= 38 and Mouse_y <= 38+Width):
+            Start_y = 38
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                play_game()
+                GameWindow.fill((35, 36, 54))
+        elif (Mouse_x >= 346 and Mouse_x <= 616) and (Mouse_y >= 155 and Mouse_y <= 155+Width):
+            Start_y = 155
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                setting()
+                GameWindow.fill((35, 36, 54))
+        elif (Mouse_x >= 346 and Mouse_x <= 616) and (Mouse_y >= 272 and Mouse_y <= 272+Width):
+            Start_y = 272
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                about()
+                GameWindow.fill((35, 36, 54))
+                GameWindow.fill(light_blue)
+    GameWindow.blit(Menu_bk, [0, 0])
+    GameWindow.blit(line, [line1_x, 0])
+    GameWindow.blit(line, [line2_x, 0])
+    GameWindow.blit(main_menu_img, [0, 0])
+    pygame.draw.rect(GameWindow, (255, 98, 10), [Start_x, Start_y, 270, 78], 2)
+    if Mouse_y > photo_center_position_y-85 and Mouse_y < photo_center_position_y+85 and (Mouse_x > photo_center_position_x-85 and Mouse_x < photo_center_position_x+85):
+        caption("Harvindar Singh", Mouse_x, Mouse_y)
+    pygame.display.update()
+    if line1_x < -630:
+        line1_move = +5
+    if line1_x > 492:
+        line1_move = -5
+    if line2_x < -630:
+        line2_move = +5
+    if line2_x > 492:
+        line2_move = -5
+    line1_x += line1_move
+    line2_x += line2_move
+    clock.tick(12)
+
+close_game()
